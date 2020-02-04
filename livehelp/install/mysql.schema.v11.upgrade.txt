@@ -1,0 +1,14 @@
+# Add Chat Visitors Table
+CREATE TABLE IF NOT EXISTS `prefix_chatvisitors` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `chat` bigint(20) NOT NULL,
+  `visitor` varchar(81) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `chat` (`chat`),
+  KEY `visitor` (`visitor`)
+) ENGINE=MyISAM /*!40101 CHARACTER SET=utf8 COLLATE utf8_unicode_ci */;
+
+# Insert Chat Visitors
+INSERT `prefix_chatvisitors` (`chat`, `visitor`) SELECT `chats`.`id` AS `chat`, `chats`.`request` AS `visitor` FROM `prefix_chats` AS `chats` WHERE `chats`.`request` > 0;
+
+ALTER TABLE `prefix_chats` DROP `request`;

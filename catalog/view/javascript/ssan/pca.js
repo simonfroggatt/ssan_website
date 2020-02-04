@@ -1,0 +1,1 @@
+(function(n,t,i,r){var u,f;n[i]=n[i]||{},n[i].initial={accountCode:"SAFET11132",host:"SAFET11132.pcapredict.com"},n[i].on=n[i].on||function(){(n[i].onq=n[i].onq||[]).push(arguments)},u=t.createElement("script"),u.async=!0,u.src=r,f=t.getElementsByTagName("script")[0],f.parentNode.insertBefore(u,f)})(window,document,"pca","//SAFET11132.pcapredict.com/js/sensor.js")

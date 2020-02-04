@@ -1,0 +1,1 @@
+<script type="application/ld+json">{"@context": "http://schema.org","@type": "Organization","url": "http://www.safetysignsandnotics.co.uk","logo": "http://www.safetysignsandnotices.co.uk/image/safetysigns_logo.jpg","contactPoint":[{"@type": "ContactPoint","telephone": "+441157270172","contactType": "sales","areaServed": "GB","availableLanguage": "English"}]}</script>

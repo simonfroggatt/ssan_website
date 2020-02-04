@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<layout version="1.0.0">
+    <default>
+    <reference name="head">
+      <block type="Chatstack/Chatstack" name="head.chatstack.code" >
+        <action method="setTemplate">
+          <template>chatstack/code.phtml</template>
+        </action>
+      </block>
+        </reference>
+    </default>
+</layout>

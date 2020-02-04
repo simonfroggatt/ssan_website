@@ -1,0 +1,132 @@
+#symbol-carousel-frame {
+  padding-top: 20px;
+  padding-bottom: 0px;
+
+
+}
+
+
+#symbol-carousel-frame .owl-item img {
+    width: 50px;
+    height: auto;
+}
+
+
+#symbol-carousel-frame .owl-prev,
+.owl-next {
+position: absolute;
+/*margin-top: -10px; // Half of the prev/next buttons height here in negatives to center them perfectly*/
+opacity: 0.5;
+font-size: 25px;
+transition: all .3s ease;
+/*width: 30px; */
+/*border: 1px solid;*/
+top: 15px;
+}
+#symbol-carousel-frame .owl-prev {
+left: 0px;
+  }
+
+
+#symbol-carousel-frame   .owl-carousel div i {
+  font-size: unset;
+}
+
+#symbol-carousel-frame .owl-next {
+right: 0px;
+
+}
+
+#symbol-carousel-frame .owl-prev:hover {
+
+    opacity: 1;
+}
+
+#symbol-carousel-frame .owl-next:hover {
+
+    opacity: 1;
+}
+
+#symbol-carousel-frame .owl-stage-outer {
+  margin-left: 25px;
+  margin-right: 25px;
+/*border: 1px solid;*/
+  margin-bottom: 0px;
+}
+
+
+#symbol-carousel-frame .caption{
+	overflow: hidden;
+	text-align: center;
+  min-height: unset;
+}
+
+
+.row-m-t{
+  margin-bottom: 20px
+}
+
+.noPadding {
+padding: 0 !important;
+}
+
+
+#svg {
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    border: solid 1px #ccc;
+    width: 500px;
+    height: 400px;
+    float: left;
+    margin-right: 10px;
+    font: 1em source-sans-pro, Source Sans Pro, Helvetica, sans-serif;
+}
+
+
+
+
+.rangeslider__fill {
+  background: #E50004;
+  position: absolute;
+}
+
+
+.symbolSliderRow {
+  margin-top: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.bespokeTextRow {
+  margin-top: 10px
+}
+
+.textAreaBespokeresize {
+  margin-top: 5px;
+  resize: vertical;
+  min-height:70px;
+}
+
+.color-thumb, .color-border{
+	border: 1px solid #ddd;
+	margin-bottom: 0px;
+	overflow: none;
+	-webkit-border-radius: 04px 04px 04px 04px;
+	-moz-border-radius: 04px 04px 04px 04px;
+	border-radius: 04px 04px 04px 04px;
+  text-align: center;
+  height: 30px;
+  width: 20%;
+
+
+}
+
+.color-thumb, .color-border:hover {
+  cursor:pointer;
+}
+
+.borderToggle.bootstrapToggle({
+  width: 100%;
+  height: 10px;
+})

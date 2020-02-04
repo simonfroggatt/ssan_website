@@ -1,0 +1,59 @@
+# Fix No Zero Date Issue / MySQL Strict
+ALTER TABLE `prefix_callback` CHANGE `datetime` `datetime` datetime;
+UPDATE `prefix_callback` SET `datetime` = NULL WHERE `datetime` = '0000-00-00 00:00:00';
+
+ALTER TABLE `prefix_chats` CHANGE `datetime` `datetime` datetime;
+ALTER TABLE `prefix_chats` CHANGE `refresh` `refresh` datetime;
+UPDATE `prefix_chats` SET `datetime` = NULL WHERE `datetime` = '0000-00-00 00:00:00';
+UPDATE `prefix_chats` SET `refresh` = NULL WHERE `refresh` = '0000-00-00 00:00:00';
+
+ALTER TABLE `prefix_contacts` CHANGE `datetime` `datetime` datetime;
+UPDATE `prefix_contacts` SET `datetime` = NULL WHERE `datetime` = '0000-00-00 00:00:00';
+
+ALTER TABLE `prefix_devices` CHANGE `datetime` `datetime` datetime;
+UPDATE `prefix_devices` SET `datetime` = NULL WHERE `datetime` = '0000-00-00 00:00:00';
+
+ALTER TABLE `prefix_expiredtotp` CHANGE `datetime` `datetime` datetime;
+UPDATE `prefix_expiredtotp` SET `datetime` = NULL WHERE `datetime` = '0000-00-00 00:00:00';
+
+ALTER TABLE `prefix_fullcontactperson` CHANGE `datetime` `datetime` datetime;
+UPDATE `prefix_fullcontactperson` SET `datetime` = NULL WHERE `datetime` = '0000-00-00 00:00:00';
+
+ALTER TABLE `prefix_initiatechat` CHANGE `datetime` `datetime` datetime;
+UPDATE `prefix_initiatechat` SET `datetime` = NULL WHERE `datetime` = '0000-00-00 00:00:00';
+
+ALTER TABLE `prefix_messages` CHANGE `datetime` `datetime` datetime;
+UPDATE `prefix_messages` SET `datetime` = NULL WHERE `datetime` = '0000-00-00 00:00:00';
+
+ALTER TABLE `prefix_operatormessages` CHANGE `datetime` `datetime` datetime;
+UPDATE `prefix_operatormessages` SET `datetime` = NULL WHERE `datetime` = '0000-00-00 00:00:00';
+
+ALTER TABLE `prefix_requests` CHANGE `datetime` `datetime` datetime;
+ALTER TABLE `prefix_requests` CHANGE `request` `request` datetime;
+ALTER TABLE `prefix_requests` CHANGE `refresh` `refresh` datetime;
+UPDATE `prefix_requests` SET `datetime` = NULL WHERE `datetime` = '0000-00-00 00:00:00';
+UPDATE `prefix_requests` SET `request` = NULL WHERE `request` = '0000-00-00 00:00:00';
+UPDATE `prefix_requests` SET `refresh` = NULL WHERE `refresh` = '0000-00-00 00:00:00';
+
+ALTER TABLE `prefix_responses` CHANGE `datetime` `datetime` datetime;
+UPDATE `prefix_responses` SET `datetime` = NULL WHERE `datetime` = '0000-00-00 00:00:00';
+
+ALTER TABLE `prefix_sessions` CHANGE `requested` `requested` datetime;
+ALTER TABLE `prefix_sessions` CHANGE `accepted` `accepted` datetime;
+ALTER TABLE `prefix_sessions` CHANGE `end` `end` datetime;
+UPDATE `prefix_sessions` SET `requested` = NULL WHERE `requested` = '0000-00-00 00:00:00';
+UPDATE `prefix_sessions` SET `accepted` = NULL WHERE `accepted` = '0000-00-00 00:00:00';
+UPDATE `prefix_sessions` SET `end` = NULL WHERE `end` = '0000-00-00 00:00:00';
+
+ALTER TABLE `prefix_sms` CHANGE `datetime` `datetime` datetime;
+UPDATE `prefix_sms` SET `datetime` = NULL WHERE `datetime` = '0000-00-00 00:00:00';
+
+ALTER TABLE `prefix_smsconversations` CHANGE `datetime` `datetime` datetime;
+UPDATE `prefix_smsconversations` SET `datetime` = NULL WHERE `datetime` = '0000-00-00 00:00:00';
+
+ALTER TABLE `prefix_users` CHANGE `datetime` `datetime` datetime;
+ALTER TABLE `prefix_users` CHANGE `refresh` `refresh` datetime;
+ALTER TABLE `prefix_users` CHANGE `updated` `updated` datetime;
+UPDATE `prefix_users` SET `datetime` = NULL WHERE `datetime` = '0000-00-00 00:00:00';
+UPDATE `prefix_users` SET `refresh` = NULL WHERE `refresh` = '0000-00-00 00:00:00';
+UPDATE `prefix_users` SET `updated` = NULL WHERE `updated` = '0000-00-00 00:00:00';

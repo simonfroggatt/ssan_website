@@ -1,0 +1,874 @@
+<?php
+/*
+Plugin Name: Chatstack (w/ Auto Install)
+Plugin URI: http://livehelp.stardevelop.com/
+Description: Chatstack allows you to easily add the live chat HTML code to your WordPress blog.  Chatstack will also be auotmatically installed into your WordPress database when using the Auto Install plugin.  The JavaScript code will be added and you can also use the Chatstack widget to display the Online / Offline button. Requires the Chatstack Server Software starting at US$159.95.
+Author: Stardevelop Pty Ltd
+Version: 2.0
+Author URI: http://livehelp.stardevelop.com/
+*/
+
+// Register Hooks
+register_activation_hook(__FILE__, 'livehelp_plugin_install');
+register_uninstall_hook(__FILE__, 'livehelp_plugin_uninstall');
+
+// Activate Plugin Hook
+function livehelp_plugin_install()
+{
+	global $wpdb;
+	$prefix = 'livehelp_';
+
+	// Default Site URL
+	if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == '443') {	$protocol = 'https://'; } else { $protocol = 'http://'; }
+	$url = $protocol . $_SERVER['HTTP_HOST'];
+	$schemafile = $url . '/livehelp/install/mysql.schema.txt';
+	$settingsfile = $url . '/livehelp/install/mysql.data.settings.txt';
+
+	$schemaexists = file_get_contents($schemafile);
+	$settingsexists = file_get_contents($settingsfile);
+	if (!empty($schemaexists) && !empty($settingsexists)) {
+
+		$sqlfile = file($schemafile);
+		$dump = '';
+		foreach ($sqlfile as $key => $line) {
+			if (trim($line) != '' && substr(trim($line), 0, 1) != '#' && substr(trim($line), 0, 10) != 'DROP TABLE') {
+				$line = str_replace('prefix_', $prefix, $line);
+				$dump .= trim($line);
+			}
+		}
+
+		$dump = trim($dump,';');
+		$tables = explode(';', $dump);
+
+		// @ prefix used to suppress errors, but you should do your own
+		// error checking by checking return values from each mysql_query()
+		$error = false;
+
+		// Start Transaction
+		@mysql_query('BEGIN', $wpdb->dbh);
+
+
+		// Database Schema
+		foreach ($tables as $key => $sql) {
+			if ($wpdb->query($wpdb->prepare($sql)) === FALSE) {
+				$error = true;
+			}
+		}
+
+		// Truncate settings
+		$query = 'TRUNCATE ' . $prefix . 'settings';
+		if ($wpdb->query($wpdb->prepare($query)) === FALSE) {
+			$error = true;
+		}
+
+		// Remove .www. if at the start of string
+		$domain = $_SERVER['SERVER_NAME'];
+		if (substr($domain, 0, 4) == 'www.') {
+			$domain = substr($domain, 4);
+		}
+
+		// Install Domain
+		if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == '443') {	$protocol = 'https://'; } else { $protocol = 'http://'; }
+		$script = $_SERVER['SCRIPT_NAME'];
+		$pos = strpos($script, '/livehelp/');
+		$directory = substr($script, 0, $pos);
+		$installdomain = $protocol . $_SERVER['SERVER_NAME'] . $directory;
+
+		$email = get_option('admin_email');
+
+		// Insert the settings data into the database, and alter the offline email address.
+		$dump = '';
+		$sqlfile = file($settingsfile);
+		foreach ($sqlfile as $key => $line) {
+			if (trim($line) != '' && substr(trim($line), 0, 1) != '#') {
+				$line = str_replace('prefix_', $prefix, $line);
+				$line = str_replace('enquiry@stardevelop.com', $email, $line);
+				$line = str_replace("'Domain', 'stardevelop.com'", "'Domain', '$domain'", $line);
+				$line = str_replace('http://livehelp.stardevelop.com', $installdomain, $line);
+
+				// Settings
+				$line = str_replace('/livehelp/locale/en/images/Online.png', $installdomain . '/livehelp/locale/en/images/Online.png', $line);
+				$line = str_replace('/livehelp/locale/en/images/Offline.png', $installdomain . '/livehelp/locale/en/images/Offline.png', $line);
+				$line = str_replace('/livehelp/locale/en/images/BeRightBack.png', $installdomain . '/livehelp/locale/en/images/BeRightBack.png', $line);
+				$line = str_replace('/livehelp/locale/en/images/Away.png', $installdomain . '/livehelp/locale/en/images/Away.png', $line);
+
+				// AuthKey Setting
+				$key = '';
+				$chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`~!@#$%^&*()-_=+[{]}\|:\,<.>/?';
+				for ($index = 0; $index < 255; $index++) {
+					$number = rand(1, strlen($chars));
+					$key .= substr($chars, $number - 1, 1);
+				}
+				$line = str_replace('D\YLu+,R0\Ze%7"B/BZ\'vZ/%P9,y\g0HB5}hZdPag_@^mYZp~_&$MT4OKt}vHRY-}>Wh:x*Eqh]^9h\R~a9qBX&_`oT?5bM4?[ZU\'YMmml(\'xVrH|_uo&XM7~Gqv+B!A2d-5CjG;M"TKmGHM)Kh$q_p>C1!;EVeVn}BIr$}ry&$&tf*CVQ\'uUk%!6jW1OJN2.vClarQC6VT}%PwI?+Yr;U\`(|\iF5qqIT1*n"sgf>9wycF4s`9sU3sP+W}.Y1r', $wpdb->escape($key), $line);
+
+				$dump .= trim($line);
+			}
+		}
+		unset($sqlfile);
+
+		$dump = trim($dump, ';');
+		$tables = explode(';', $dump);
+
+		// Insert Settings
+		foreach ($tables as $key => $sql) {
+			if ($wpdb->query($sql) === FALSE) {
+				$error = true;
+				exit();
+			}
+		}
+		unset($tables);
+
+		$schemafile = $url . '/livehelp/install/mysql.data.countries.txt';
+		$sqlfile = file($schemafile);
+		$dump = '';
+		foreach ($sqlfile as $key => $line) {
+			if (trim($line) != '' && substr(trim($line), 0, 1) != '#' && substr(trim($line), 0, 10) != 'DROP TABLE') {
+				$line = str_replace('prefix_', $prefix, $line);
+				$dump .= trim($line);
+			}
+		}
+
+		$dump = trim($dump,';');
+		$tables = explode(';', $dump);
+
+		// Countries Schema
+		foreach ($tables as $key => $sql) {
+			if ($wpdb->query($wpdb->prepare($sql)) === FALSE) {
+				$error = true;
+			}
+		}
+
+		if ($error) {
+			// Error occured, don't save any changes
+			@mysql_query('ROLLBACK', $wpdb->dbh);
+		} else {
+		   // All ok, save the changes
+		   @mysql_query('COMMIT', $wpdb->dbh);
+
+		   // Save Database Configuration
+		   livehelp_save_configuration();
+
+		}
+	}
+
+}
+
+// Uninstall Plugin Hook
+function livehelp_plugin_uninstall()
+{
+	global $wpdb;
+	$prefix = 'livehelp_';
+
+	// Default Site URL
+	if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == '443') {	$protocol = 'https://'; } else { $protocol = 'http://'; }
+	$url = $protocol . $_SERVER['HTTP_HOST'];
+	$schemafile = $url . '/livehelp/install/mysql.schema.uninstall.txt';
+
+	$exists = file_get_contents($schemafile);
+	if (!empty($exists)) {
+
+		$sqlfile = file($schemafile);
+		$dump = '';
+		foreach ($sqlfile as $key => $line) {
+			if (trim($line) != '' && substr(trim($line), 0, 1) != '#') {
+				$line = str_replace('prefix_', $prefix, $line);
+				$dump .= trim($line);
+			}
+		}
+
+		$dump = trim($dump,';');
+		$tables = explode(';', $dump);
+
+		// @ prefix used to suppress errors, but you should do your own
+		// error checking by checking return values from each mysql_query()
+		$error = false;
+
+		// Start Transaction
+		@mysql_query('BEGIN', $wpdb->dbh);
+
+		foreach ($tables as $key => $sql) {
+			if ($wpdb->query($wpdb->prepare($sql)) === FALSE) {
+				$error = true;
+			}
+		}
+
+		if ($error) {
+			// Error occured, don't save any changes
+			@mysql_query('ROLLBACK', $wpdb->dbh);
+		} else {
+		   // All ok, save the changes
+		   @mysql_query('COMMIT', $wpdb->dbh);
+		}
+	}
+
+}
+
+// Save Chatstack Database Configuration
+function livehelp_save_configuration()
+{
+
+	$pluginpath = realpath(__FILE__);
+	$siteurl = get_option('siteurl');
+
+	if (preg_match(
+		'/^
+		# Skip over scheme and authority, if any
+		([a-z][a-z0-9+\-.]*:(\/\/[^\/?#]+)?)?
+		# Path
+		(?P<path>[a-z0-9\-._~%!$&\'()*+,;=:@\/]*)/ix',
+		$siteurl, $regs)) {
+		$path = $regs['path'] . '/';
+	} else {
+		$path = '';
+	}
+
+	$pos = strpos($pluginpath, $path);
+	if ($pos !== false) {
+		$configuration = substr($pluginpath, 0, $pos) . '/livehelp/include/database.php';
+
+		$writable = true;
+		if ($error == '') {
+			if (@fopen($configuration, 'r') == true) {
+				if (is_writable($configuration)) {
+
+					$prefix = 'livehelp_';
+
+					$content = "<?php\n";
+					$content .= "\n";
+					$content .= 'define(\'DB_HOST\', \'' . DB_HOST . '\');' . "\n";
+					$content .= 'define(\'DB_NAME\', \'' . DB_NAME . '\');' . "\n";
+					$content .= 'define(\'DB_USER\', \'' . DB_USER . '\');' . "\n";
+					$content .= 'define(\'DB_PASS\', \'' . DB_PASSWORD . '\');' . "\n";
+					$content .= "\n";
+					$content .= '$table_prefix =  \'' . $prefix . '\';' . "\n";
+					$content .= "\n";
+					$content .= 'return true;' . "\n";
+					$content .= "\n";
+					$content .= "?>";
+
+					if (!$handle = fopen($configuration, 'w')) {
+						$writable = false;
+					}
+					else {
+						if (!fwrite($handle, $content)) {
+							$writable = false;
+						}
+						else {
+							$writable = true;
+							fclose($handle);
+						}
+					}
+				}
+				else {
+					$writable = false;
+				}
+			}
+			else {
+				$writable = false;
+			}
+		}
+
+	}
+}
+
+// Create Operator Account
+function livehelp_create_account($username, $password)
+{
+	global $wpdb;
+	$prefix = 'livehelp_';
+
+	// Operator Email
+	$email = get_option('admin_email');
+
+	// Password SHA1 / SHA512 Hash
+	$algo = 'sha512';
+	if (function_exists('hash') && in_array($algo, hash_algos())) {
+		$password = hash($algo, $password);
+	} else if (function_exists('mhash') && mhash_get_hash_name(MHASH_SHA512) != false) {
+		$password = bin2hex(mhash(MHASH_SHA512, $password));
+	} else {
+		$password = sha1($password);
+	}
+
+	$query = "INSERT INTO " . $prefix . "users (`id`, `username`, `password`, `firstname`, `lastname`, `email`, `department`, `image`, `privilege`, `status`) VALUES ('1', '$username', '$password', 'Administrator', 'Account', '$email', 'Sales / Technical Support', '', '-1', '-1')";
+	if ($wpdb->query($wpdb->prepare($query)) === FALSE) {
+		add_settings_error('livehelp_options', 'create_account_error', 'Create Operator Account Unsuccessful - SQL Error', 'error');
+	} else {
+		add_settings_error('livehelp_options', 'create_account_success', 'Create Operator Account Successful', 'updated');
+	}
+}
+
+// Reset Operator Account
+function livehelp_reset_account($id, $username, $password)
+{
+	global $wpdb;
+	$prefix = 'livehelp_';
+
+	// Operator Email
+	$email = get_option('admin_email');
+
+	if (empty($password)) {
+
+		// Reset Account Username
+		$query = "UPDATE " . $prefix . "users SET `username` = '$username' WHERE `id` = '$id'";
+		if ($wpdb->query($wpdb->prepare($query)) === FALSE) {
+			add_settings_error('livehelp_options', 'reset_account_error', 'Operator Account Reset Unsuccessful - SQL Error', 'error');
+		} else {
+			add_settings_error('livehelp_options', 'reset_account_success', 'Operator Account Reset Successful', 'updated');
+		}
+
+	} else {
+
+		// Password SHA1 / SHA512 Hash
+		$algo = 'sha512';
+		if (function_exists('hash') && in_array($algo, hash_algos())) {
+			$password = hash($algo, $password);
+		} else if (function_exists('mhash') && mhash_get_hash_name(MHASH_SHA512) != false) {
+			$password = bin2hex(mhash(MHASH_SHA512, $password));
+		} else {
+			$password = sha1($password);
+		}
+
+		// Reset Account Username and Password
+		$query = "UPDATE " . $prefix . "users SET `username` = '$username', `password` = '$password' WHERE `id` = '$id'";
+		if ($wpdb->query($wpdb->prepare($query)) === FALSE) {
+			add_settings_error('livehelp_options', 'reset_account_error', 'Operator Account Reset Unsuccessful - SQL Error', 'error');
+		} else {
+			add_settings_error('livehelp_options', 'reset_account_success', 'Operator Account Reset Successful', 'updated');
+		}
+	}
+}
+
+// WordPress JavaScript Action
+add_action('wp_print_scripts', 'livehelp_js');
+add_action('wp_head', 'livehelp_head');
+
+// Chatstack JavaScript
+function livehelp_js()
+{
+	if (is_admin() || is_feed()) { return; }
+
+	$embedded = true;
+	$options = get_option('livehelp_options');
+
+	if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == '443') {	$protocol = 'https://'; } else { $protocol = 'http://'; }
+	if (isset($options['url'])) { $url = $options['url']; }
+	if (isset($options['embedded'])) { $embedded = $options['embedded']; }
+
+	// Default Site URL
+	if (empty($url)) {
+		$url = $protocol . $_SERVER['HTTP_HOST'];
+	} else {
+		$protocols = array('http://', 'https://');
+		$url = str_replace($protocols, $protocol, $url);
+	}
+
+}
+
+function livehelp_head()
+{
+
+	// Default Site URL
+	$url = $_SERVER['HTTP_HOST'];
+	$embedded = true;
+
+	$options = get_option('livehelp_options');
+	if (isset($options['url'])) { $url = $options['url']; }
+	if (isset($options['embedded'])) { $embedded = $options['embedded']; }
+
+	if (empty($url)) {
+		$url = $_SERVER['HTTP_HOST'];
+	} else {
+		$protocols = array('http://', 'https://');
+		$url = str_replace($protocols, '', $url);
+	}
+
+	echo '<script type="text/javascript">' . "\n";
+	echo 'var Chatstack = {};' . "\n";
+	echo 'Chatstack.server = \'' . $url . '\';' . "\n";
+
+	// Live Chat Embedded
+	if ($embedded == true) {
+		echo 'Chatstack.embedded = true;' . "\n";
+	}
+
+	echo '(function(d, undefined) {' . "\n";
+	echo '	Chatstack.e = []; Chatstack.ready = function (c) { Chatstack.e.push(c); }' . "\n";
+	echo '	Chatstack.server = Chatstack.server.replace(/[a-z][a-z0-9+\-.]*:\/\/|\/livehelp\/*(\/|[a-z0-9\-._~%!$&\'()*+,;=:@\/]*(?![a-z0-9\-._~%!$&\'()*+,;=:@]))|\/*$/g, \'\');' . "\n";
+	echo '	var b = d.createElement(\'script\'); b.type = \'text/javascript\'; b.async = true;' . "\n";
+	echo '	b.src = (\'https:\' == d.location.protocol ? \'https://\' : \'http://\') + Chatstack.server + \'/livehelp/scripts/js.min.js\';' . "\n";
+	echo '	var s = d.getElementsByTagName(\'script\')[0];' . "\n";
+	echo '	s.parentNode.insertBefore(b, s);' . "\n";
+	echo '})(document);' . "\n";
+	echo '</script>' . "\n";
+
+}
+
+// Chatstack HTML Code
+function livehelp_code()
+{
+	$options = get_option('livehelp_options');
+	$url = (isset($options['url'])) ? $options['url'] : '';
+
+	$code= <<<EOD
+<!-- Chatstack - https://www.chatstack.com - Copyright - All Rights Reserved //-->
+<!-- BEGIN Chatstack HTML Code - NOT PERMITTED TO MODIFY IMAGE MAP/CODE/LINKS //-->
+<a href="#" class="LiveHelpButton" style="border:none"><img src="{$url}/livehelp/status.php" id="LiveHelpStatus" name="LiveHelpStatus" border="0" alt="Live Chat" title="Live Chat" class="LiveHelpStatus"/></a>
+<!-- END Chatstack HTML Code - NOT PERMITTED TO MODIFY IMAGE MAP/CODE/LINKS //-->
+EOD;
+	return $code;
+}
+
+
+/**
+ * Chatstack Widget Class
+ */
+class LiveHelpWidget extends WP_Widget {
+    /** constructor */
+    function LiveHelpWidget() {
+		$opts = array('description' => 'Your Chatstack Online / Offline Chat Button');
+        parent::WP_Widget(false, $name = 'Chatstack', $opts);
+    }
+
+    /** @see WP_Widget::widget */
+    function widget($args, $instance) {
+        extract($args);
+		if (empty($instance['title'])) { $instance['title'] = ''; }
+
+		$title = apply_filters('widget_title', $instance['title']);
+		echo $before_widget;
+
+		if (!empty($title)) {
+			echo $before_title . $title . $after_title;
+		}
+		echo livehelp_code();
+		echo $after_widget;
+    }
+
+    /** @see WP_Widget::update */
+    function update($new_instance, $old_instance) {
+        return $new_instance;
+    }
+
+    /** @see WP_Widget::form */
+    function form($instance) {
+		$title = '';
+		if (!empty($instance['title'])) {
+			$title = esc_attr($instance['title']);
+		}
+        ?>
+            <p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /></label></p>
+        <?php
+    }
+
+}
+
+// Register Widget widget
+add_action('widgets_init', create_function('', 'return register_widget("LiveHelpWidget");'));
+
+// Resister Chatstack Shortcode
+add_shortcode('livehelp', 'livehelp_code');
+
+// Chatstack Installation Missing
+function livehelp_admin_notices() {
+
+	// Options
+	$options = get_option('livehelp_options');
+	$url = (!empty($options['url'])) ? $options['url'] : '';
+
+	if (empty($url)) {
+		// Site URL
+		if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == '443') {	$protocol = 'https://'; } else { $protocol = 'http://'; }
+		$url = $protocol . $_SERVER['HTTP_HOST'];
+	}
+
+	$script = $url . '/livehelp/scripts/js.min.js';
+
+	// Check URL with cURL etc.
+	if (function_exists('curl_init')) {
+
+		$ch = curl_init($script);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+		$result = curl_exec($ch);
+		$info = @curl_getinfo($ch);
+				curl_close ($ch);
+				if ($info['http_code'] != 404) {
+			livehelp_database_notice();
+			return;
+		}
+		echo '<div class="updated"><p><a href="options-general.php?page=livehelp">Chatstack</a> needs attention: Could not locate the Chatstack Installation at ' . $url . '/livehelp/. Please enter the URL where Chatstack is installed within the Settings.</p></div>';
+		return;
+
+	} else {
+
+		if (@fopen($script, 'r') == true) {
+			livehelp_database_notice();
+			return;
+		}
+		echo '<div class="error"><p><strong>Chatstack is not active.</strong> Could not locate the Chatstack Installation at ' . $url . '/livehelp/. <a href="options-general.php?page=livehelp">Please enter the URL</a> where Chatstack is installed within the Settings.</p></div>';
+		return;
+	}
+
+}
+
+function livehelp_database_notice() {
+
+	global $wpdb;
+	global $operators;
+	$prefix = 'livehelp_';
+
+	// Check Schema Created
+	$table = $prefix . 'users';
+	$query = "SHOW TABLES FROM " . DB_NAME . " LIKE '%s'";
+	$users = $wpdb->get_var($wpdb->prepare($query, $table));
+
+	// Schema Error
+	if ($users != $table) {
+		echo '<div class="error"><p><strong>Chatstack needs attention.</strong> Chatstack database schema does not exist. Please <a href="options-general.php?page=livehelp">install the database schema</a> within the Settings.</p></div>';
+		return;
+	} else {
+
+		// Check Operator Created
+		$query = "SELECT COUNT(*) FROM " . $prefix . "users";
+		$operators = (int)$wpdb->get_var($query);
+
+		// Operators Error
+		if ($operators == 0) {
+			echo '<div class="error"><p><strong>Chatstack needs attention.</strong> No Chatstack operator accounts exist. Please <a href="options-general.php?page=livehelp">create an operator account</a> within the Settings.</p></div>';
+			return;
+		}
+
+	}
+
+}
+
+function livehelp_admin_menu() {
+
+	// Admin Notices
+	add_action('admin_notices', 'livehelp_admin_notices');
+	$page = add_options_page('Chatstack', 'Chatstack', 'manage_options', 'livehelp', 'livehelp_options_page');
+
+	// Using registered $page handle to hook script load
+    add_action('admin_print_styles-' . $page, 'livehelp_admin_styles');
+}
+
+// Administration
+add_action('admin_menu', 'livehelp_admin_menu');
+
+function livehelp_options_page(){
+	echo '<div class="wrap">';
+	screen_icon();
+	echo '<h2>Chatstack</h2>';
+	echo '<form action="options.php" method="post">';
+	settings_fields('livehelp_options');
+	do_settings_sections('livehelp');
+	do_settings_sections('livehelp_account');
+	do_settings_sections('livehelp_database');
+	echo '<input name="Submit" class="button-primary" type="submit" value="'. esc_attr('Save Changes') .'" /></form>';
+	echo '</div>';
+}
+
+$schema = false;
+$operators = 0;
+
+// Fill the Menu page with content
+function livehelp_admin_init(){
+
+	global $wpdb;
+	global $operators;
+	global $schema;
+	$prefix = 'livehelp_';
+
+	// Register Settings
+	register_setting('livehelp_options', 'livehelp_options', 'livehelp_options_validate');
+
+	// General Settings
+	add_settings_section('the_livehelp', '', 'livehelp_details_text', 'livehelp');
+	add_settings_field('livehelp_field', 'Chatstack Installation URL', 'livehelp_url_field_display', 'livehelp', 'the_livehelp');
+	add_settings_field('livehelp_embedded_field', 'Embedded Chat', 'livehelp_embedded_field_display', 'livehelp', 'the_livehelp');
+
+	// Check Tables Created
+	$table = $prefix . 'users';
+	$query = "SHOW TABLES FROM " . DB_NAME . " LIKE '%s'";
+	$users = $wpdb->get_var($wpdb->prepare($query, $table));
+	if ($users == $table) {
+
+		// Schema Exists
+		$schema = true;
+
+		// Existing Operator Accounts
+		$query = "SELECT COUNT(*) FROM " . $prefix . "users";
+		$operators = (int)$wpdb->get_var($query);
+
+		// Create Operator Account Section
+		if ($operators == 0) {
+
+			// Add Operator Admnistrator Account
+			add_settings_section('the_livehelp', '', 'livehelp_account_details_text', 'livehelp_account');
+			add_settings_field('username', 'Username', 'livehelp_account_username_field_display', 'livehelp_account', 'the_livehelp');
+			add_settings_field('password', 'Password', 'livehelp_account_password_field_display', 'livehelp_account', 'the_livehelp');
+			add_settings_field('passwordretype', '', 'livehelp_account_retype_password_field_display', 'livehelp_account', 'the_livehelp');
+
+		} else {
+
+			// Reset Administrator Password
+			add_settings_section('the_livehelp', '', 'livehelp_reset_account_details_text', 'livehelp_account');
+			add_settings_field('id', '', 'livehelp_reset_account_id_field_display', 'livehelp_account', 'the_livehelp');
+			add_settings_field('username', 'Username', 'livehelp_reset_account_username_field_display', 'livehelp_account', 'the_livehelp');
+			add_settings_field('password', 'Password', 'livehelp_reset_account_password_field_display', 'livehelp_account', 'the_livehelp');
+			add_settings_field('passwordretype', '', 'livehelp_reset_account_retype_password_field_display', 'livehelp_account', 'the_livehelp');
+
+		}
+
+	}
+
+	// Database Section
+	add_settings_section('the_livehelp', '', 'livehelp_database_details_text', 'livehelp_database');
+
+	// Register Administration JavaScript
+	wp_register_script('livehelp_admin_script', plugins_url('/livehelp-admin.js', __FILE__));
+
+}
+add_action('admin_init', 'livehelp_admin_init');
+
+function livehelp_admin_styles() {
+	wp_enqueue_script('livehelp_admin_script');
+}
+
+function livehelp_url_field_display(){
+
+	$options = get_option('livehelp_options');
+	$url = $options['url'];
+
+	// Site URL
+	if (empty($url)) {
+		if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == '443') {	$protocol = 'https://'; } else { $protocol = 'http://'; }
+		$url = $protocol . $_SERVER['HTTP_HOST'];
+	}
+
+	$fields = "<input id='livehelp_field' name='livehelp_options[url]' size='40' type='text' value='$url' /> /livehelp/ <span class='description'><br/> Example: <code>http://chat.yourdomain.com/livehelp/</code><br/> The default is <code>$url</code></span>";
+	echo $fields;
+}
+
+function livehelp_embedded_field_display(){
+
+	$options = get_option('livehelp_options');
+	if (!isset($options['embedded'])) {
+
+		echo "<fieldset><label><input id='livehelp_embedded_field' name='livehelp_options[embedded]' type='radio' value='1' checked='checked' />Enabled</label><br/>";
+		echo "<label><input id='livehelp_embedded_field' name='livehelp_options[embedded]' type='radio' value='0' />Disabled</label></fieldset>";
+
+	} else {
+
+		if ((bool)$options['embedded'] == true) {
+			$enabled = 'checked="checked"';
+			$disabled = '';
+		} else {
+			$enabled = '';
+			$disabled = 'checked="checked"';
+		}
+
+		echo "<fieldset><label><input id='livehelp_embedded_field' name='livehelp_options[embedded]' type='radio' value='1' $enabled />Enabled</label><br/>";
+		echo "<label><input id='livehelp_embedded_field' name='livehelp_options[embedded]' type='radio' value='0' $disabled />Disabled</label></fieldset>";
+	}
+}
+
+function livehelp_account_username_field_display(){
+	$fields = "<input id='username' name='livehelp_options[username]' size='40' type='text' value='' />";
+	echo $fields;
+}
+
+function livehelp_account_password_field_display(){
+	$fields = "<input id='password' name='livehelp_options[password]' size='40' type='password' value='' />";
+	echo $fields;
+}
+
+function livehelp_account_retype_password_field_display(){
+	$fields = "<input id='passwordretype' name='livehelp_options[passwordretype]' size='40' type='password' value='' /><span class='description'>Type your new password again.</span>";
+	echo $fields;
+}
+
+function livehelp_reset_account_username_field_display(){
+
+	global $wpdb;
+	$prefix = 'livehelp_';
+
+	// Existing Operator Account
+	$query = "SELECT `username` FROM " . $prefix . "users WHERE `privilege` = -1 LIMIT 1";
+	$username = $wpdb->get_var($wpdb->prepare($query));
+
+	$fields = "<input id='username' name='livehelp_options[username]' size='40' type='text' value='$username' />";
+	echo $fields;
+}
+
+function livehelp_reset_account_id_field_display(){
+
+	global $wpdb;
+	$prefix = 'livehelp_';
+
+	// Existing Operator Account ID
+	$query = "SELECT `id` FROM " . $prefix . "users WHERE `privilege` = -1 LIMIT 1";
+	$id = $wpdb->get_var($wpdb->prepare($query));
+
+	$fields = "<input id='id' name='livehelp_options[id]' type='hidden' value='$id' />";
+	echo $fields;
+}
+
+function livehelp_reset_account_password_field_display(){
+	$fields = "<input id='password' name='livehelp_options[password]' size='40' type='password' value='' /><span class='description'>If you would like to change the password type a new one. Otherwise leave this blank.</span>";
+	echo $fields;
+}
+
+function livehelp_reset_account_retype_password_field_display(){
+	$fields = "<input id='passwordretype' name='livehelp_options[passwordretype]' size='40' type='password' value='' /><span class='description'>Type your new password again.</span>";
+	echo $fields;
+}
+
+function livehelp_details_text(){
+
+	// Site URL
+	if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == '443') {	$protocol = 'https://'; } else { $protocol = 'http://'; }
+	$url = $protocol . $_SERVER['HTTP_HOST'] . '/livehelp';
+
+	echo "<p>Enter the URL where Chatstack is installed.  You only need to setup the URL if your Chatstack is installed on a different server or sub-domain.</p>";
+}
+
+function livehelp_account_details_text(){
+	echo '<div><h3>Create Operator Account</h3>';
+	echo '<div>';
+	echo '<span class="description">Please complete the details below to create the initial Chatstack operator account.  Once you have created the initial account you can continue to create accounts from within the Chatstack operator application.</span><br/>';
+	echo '</div>';
+}
+
+function livehelp_reset_account_details_text(){
+	echo '<div><h3>Reset Operator Account</h3>';
+	echo '<div>';
+	echo '<span class="description">Please complete the details below to reset Chatstack Administrator operator account.  You can create additional accounts from within the Chatstack operator application.</span><br/>';
+	echo '</div>';
+}
+
+function livehelp_database_details_text(){
+
+	global $operators;
+	global $schema;
+
+	// Password Strength Indicator
+	echo '<div style="margin-left:230px">';
+	echo '<br/><div id="pass-strength-result">Strength indicator</div><br/><br/>';
+	echo '<div class="description indicator-hint">Hint: The password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers and symbols like ! " ? $ % ^ &amp;</div><br/>';
+	echo '</div>';
+
+	// Check Database Schema
+	if ($schema == true) {
+
+		// Create / Reset Account Button
+		if ($operators > 0) {
+			echo '<div><input name="ResetAccountSubmit" class="button" type="submit" value="'. esc_attr('Reset Account') .'" /></div><br/>';
+		} else {
+			echo '<div><input name="CreateAccountSubmit" class="button" type="submit" value="'. esc_attr('Create Account') .'" /></div><br/>';
+		}
+
+	}
+
+	echo '<h3>Database Schema</h3>';
+	echo '<div class="description">The Chatstack MySQL database schema is automatically installed within the WordPress MySQL database.</div><br/>';
+	echo '<div><input name="InstallSubmit" class="button" type="submit" value="'. esc_attr('Install Database Schema') .'" /></div><br/>';
+	echo '<div><input name="DeleteSubmit" class="button" type="submit" value="'. esc_attr('Delete Database Schema') .'" /></div><br/>';
+	echo '<span class="description"><strong>Note:</strong> The database schema will be automatically installed when you activate the Chatstack plugin and also deleted when you delete the Chatstack plugin from the WordPress Plugins section.  You can manually install and remove the MySQL database schema using the buttons above.</span><br/>';
+	echo '</div><br/>';
+}
+
+function livehelp_options_validate($input){
+
+	// Reset Database
+	if (isset($_REQUEST['DeleteSubmit'])) {
+
+		// Error Message
+		add_settings_error('livehelp_options', 'reset_database', 'Chatstack Database Schema Deleted Sucessfully', 'updated');
+
+		// Uninstall Plugin
+		livehelp_plugin_uninstall();
+
+		return;
+	}
+
+	// Install Database
+	if (isset($_REQUEST['InstallSubmit'])) {
+
+		// Error Message
+		add_settings_error('livehelp_options', 'install_database', 'Chatstack Database Schema Installed Sucessfully', 'updated');
+
+		// Uninstall Plugin
+		livehelp_plugin_install();
+
+		return;
+	}
+
+	// Create Operator Account
+	if (isset($_REQUEST['CreateAccountSubmit'])) {
+
+		$username = $input['username'];
+		$password = $input['password'];
+		$passwordretype = $input['passwordretype'];
+
+		if (empty($username)) {
+			// Empty Username
+			add_settings_error('livehelp_options', 'create_account_password', 'Operator Account Error - Username Empty', 'error');
+			return;
+		}
+
+		if (empty($password)) {
+			// Empty Password Error
+			add_settings_error('livehelp_options', 'create_account_password', 'Operator Account Error - Password Empty', 'error');
+			return;
+		}
+
+		if ($password != $passwordretype) {
+			// Mismatched Password Error
+			add_settings_error('livehelp_options', 'create_account_mismatch', 'Operator Account Error - Passwords Mismatch', 'error');
+			return;
+		}
+
+		// Create Operator Account
+		livehelp_create_account($username, $password);
+		return;
+	}
+
+	// Reset Operator Account
+	if (isset($_REQUEST['ResetAccountSubmit'])) {
+
+		$id = $input['id'];
+		$username = $input['username'];
+		$password = $input['password'];
+		$passwordretype = $input['passwordretype'];
+
+		if (empty($username)) {
+			// Empty Username
+			add_settings_error('livehelp_options', 'reset_account_password', 'Operator Account Error - Username Empty', 'error');
+			return;
+		}
+
+		if (!empty($password) && $password != $passwordretype) {
+			// Mismatched Password Error
+			add_settings_error('livehelp_options', 'reset_account_mismatch', 'Operator Account Error - Passwords Mismatch', 'error');
+			return;
+		}
+
+		// Reset Operator Account
+		livehelp_reset_account($id, $username, $password);
+		return;
+	}
+
+	// Site URL
+	$newinput['url'] = esc_url_raw(trim($input['url']));
+
+	// Live Chat Embedded
+	if ($input['embedded'] == '0' || $input['embedded'] == '1') {
+		$newinput['embedded'] = (bool)$input['embedded'];
+	}
+
+	return $newinput;
+}
+
+?>

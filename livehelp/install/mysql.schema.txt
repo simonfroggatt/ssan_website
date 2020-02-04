@@ -1,0 +1,331 @@
+DROP TABLE IF EXISTS `prefix_activity`;
+CREATE TABLE IF NOT EXISTS `prefix_activity` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `user` bigint(20) NOT NULL,
+  `chat` bigint(20) NOT NULL default '0',
+  `username` varchar(30) NOT NULL,
+  `datetime` datetime,
+  `activity` text NOT NULL,
+  `duration` int(11) NOT NULL default '0',
+  `type` int(11) NOT NULL,
+  `status` int(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM /*!40101 CHARACTER SET=utf8 COLLATE utf8_unicode_ci */;
+
+DROP TABLE IF EXISTS `prefix_callback`;
+CREATE TABLE `prefix_callback` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `datetime` datetime,
+  `name` varchar(50) NOT NULL default '',
+  `email` varchar(100) NOT NULL default '',
+  `country` varchar(150) NOT NULL default '',
+  `timezone` varchar(5) NOT NULL default '',
+  `dial` varchar(5) NOT NULL default '',
+  `telephone` varchar(20) NOT NULL default '',
+  `message` text NOT NULL,
+  `operator` bigint(20) NOT NULL default '0',
+  `status` int(1) NOT NULL default '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM /*!40101 CHARACTER SET=utf8 COLLATE utf8_unicode_ci */;
+
+DROP TABLE IF EXISTS `prefix_chats`;
+CREATE TABLE `prefix_chats` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `hash` varchar(36) NOT NULL default '',
+  `name` text NOT NULL,
+  `datetime` datetime,
+  `refresh` datetime,
+  `email` text NOT NULL,
+  `server` text NOT NULL,
+  `department` text NOT NULL,
+  `status` int(1) NOT NULL default '0',
+  PRIMARY KEY (`id`),
+  KEY `datetime` (`datetime`),
+  KEY `refresh` (`refresh`),
+  KEY `status` (`status`)
+) ENGINE=MyISAM /*!40101 CHARACTER SET=utf8 COLLATE utf8_unicode_ci */;
+
+DROP TABLE IF EXISTS `prefix_chatvisitors`;
+CREATE TABLE `prefix_chatvisitors` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `chat` bigint(20) NOT NULL,
+  `visitor` varchar(81) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `chat` (`chat`),
+  KEY `visitor` (`visitor`)
+) ENGINE=MyISAM /*!40101 CHARACTER SET=utf8 COLLATE utf8_unicode_ci */;
+
+DROP TABLE IF EXISTS `prefix_contacts`;
+CREATE TABLE `prefix_contacts` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `datetime` datetime,
+  `telephone` varchar(20) NOT NULL default '',
+  `name` varchar(50) NOT NULL default '',
+  `email` varchar(255) NOT NULL default '',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM /*!40101 CHARACTER SET=utf8 COLLATE utf8_unicode_ci */;
+
+DROP TABLE IF EXISTS `prefix_countries`;
+CREATE TABLE `prefix_countries` (
+  `code` char(2) NOT NULL default '',
+  `country` varchar(50) NOT NULL default '',
+  `dial` varchar(10) NOT NULL default '',
+  PRIMARY KEY (`code`)
+) ENGINE=MyISAM /*!40101 CHARACTER SET=utf8 COLLATE utf8_unicode_ci */;
+
+DROP TABLE IF EXISTS `prefix_custom`;
+CREATE TABLE IF NOT EXISTS `prefix_custom` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `request` bigint(20) NOT NULL default '0',
+  `custom` text NOT NULL,
+  `name` text NOT NULL,
+  `reference` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `request` (`request`)
+) ENGINE=MyISAM /*!40101 CHARACTER SET=utf8 COLLATE utf8_unicode_ci */;
+
+DROP TABLE IF EXISTS `prefix_departments`;
+CREATE TABLE `prefix_departments` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `name` text NOT NULL,
+  `email` varchar(50) NOT NULL default '',
+  `status` int(1) NOT NULL default '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM /*!40101 CHARACTER SET=utf8 COLLATE utf8_unicode_ci */;
+
+DROP TABLE IF EXISTS `prefix_devices`;
+CREATE TABLE `prefix_devices` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `user` bigint NOT NULL,
+  `datetime` datetime,
+  `unique` text NOT NULL,
+  `device` text NOT NULL,
+  `os` text NOT NULL,
+  `token` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM /*!40101 CHARACTER SET=utf8 COLLATE utf8_unicode_ci */;
+
+DROP TABLE IF EXISTS `prefix_expiredtotp`;
+CREATE TABLE `prefix_expiredtotp` (
+  `id` binary(20) NOT NULL,
+  `datetime` datetime,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM /*!40101 CHARACTER SET=utf8 COLLATE utf8_unicode_ci */;
+
+# Add FullContact Person Table
+DROP TABLE IF EXISTS `prefix_fullcontactperson`;
+CREATE TABLE `prefix_fullcontactperson` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `datetime` datetime,
+  `email` varchar(255) NOT NULL default '',
+  `data` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `datetime` (`datetime`),
+  KEY `email` (`email`)
+) ENGINE=MyISAM /*!40101 CHARACTER SET=utf8 COLLATE utf8_unicode_ci */;
+
+DROP TABLE IF EXISTS `prefix_initiatechat`;
+CREATE TABLE `prefix_initiatechat` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `request` bigint(20) NOT NULL,
+  `datetime` datetime,
+  `user` bigint(20) NOT NULL,
+  `message` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `request` (`request`),
+  KEY `user` (`user`)
+) ENGINE=MyISAM /*!40101 CHARACTER SET=utf8 COLLATE utf8_unicode_ci */;
+
+DROP TABLE IF EXISTS `prefix_geolocation`;
+CREATE TABLE `prefix_geolocation` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `request` bigint NOT NULL,
+  `city` text NOT NULL,
+  `state` text NOT NULL,
+  `country` text NOT NULL,
+  `latitude` text NOT NULL,
+  `longitude` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `request` (`request`)
+) ENGINE=MyISAM /*!40101 CHARACTER SET=utf8 COLLATE utf8_unicode_ci */;
+
+DROP TABLE IF EXISTS `prefix_messages`;
+CREATE TABLE `prefix_messages` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `chat` bigint(20) NOT NULL default '0',
+  `username` varchar(30) NOT NULL,
+  `datetime` datetime,
+  `message` text NOT NULL,
+  `align` int(1) NOT NULL default '0',
+  `status` int(1) NOT NULL default '0',
+  PRIMARY KEY (`id`),
+  KEY `chat` (`chat`),
+  KEY `status` (`status`)
+) ENGINE=MyISAM /*!40101 CHARACTER SET=utf8 COLLATE utf8_unicode_ci */;
+
+DROP TABLE IF EXISTS `prefix_operatormessages`;
+CREATE TABLE `prefix_operatormessages` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `from` bigint(20) NOT NULL default '0',
+  `to` bigint(20) NOT NULL default '0',
+  `datetime` datetime,
+  `message` text NOT NULL,
+  `align` int(1) NOT NULL default '0',
+  `status` int(1) NOT NULL default '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM /*!40101 CHARACTER SET=utf8 COLLATE utf8_unicode_ci */;
+
+DROP TABLE IF EXISTS `prefix_ratings`;
+CREATE TABLE `prefix_ratings` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `chat` bigint(20) NOT NULL default '0',
+  `user` bigint(20) NOT NULL default '0',
+  `rating` int(1) NOT NULL default '0',
+  PRIMARY KEY (`id`),
+  KEY `chat` (`chat`),
+  KEY `user` (`user`)
+) ENGINE=MyISAM /*!40101 CHARACTER SET=utf8 COLLATE utf8_unicode_ci */;
+
+DROP TABLE IF EXISTS `prefix_requests`;
+CREATE TABLE `prefix_requests` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `ipaddress` varchar(100) NOT NULL default '',
+  `useragent` varchar(200) NOT NULL default '',
+  `resolution` varchar(20) NOT NULL default '',
+  `city` text NOT NULL,
+  `state` text NOT NULL,
+  `country` text NOT NULL,
+  `datetime` datetime,
+  `request` datetime,
+  `refresh` datetime,
+  `url` text NOT NULL,
+  `title` varchar(150) NOT NULL default '',
+  `referrer` text NOT NULL,
+  `path` text NOT NULL,
+  `initiate` bigint(20) NOT NULL default '0',
+  `status` int(1) NOT NULL default '0',
+  PRIMARY KEY (`id`),
+  KEY `datetime` (`datetime`),
+  KEY `request` (`request`),
+  KEY `refresh` (`refresh`),
+  KEY `status` (`status`)
+) ENGINE=InnoDB /*!40101 CHARACTER SET=utf8 COLLATE utf8_unicode_ci */;
+
+DROP TABLE IF EXISTS `prefix_responses`;
+CREATE TABLE `prefix_responses` (
+  `id` int(5) NOT NULL auto_increment,
+  `name` text NOT NULL,
+  `datetime` datetime,
+  `type` tinyint(1) NOT NULL,
+  `category` text NOT NULL,
+  `content` longtext NOT NULL,
+  `tags` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM /*!40101 CHARACTER SET=utf8 COLLATE utf8_unicode_ci */;
+
+DROP TABLE IF EXISTS `prefix_sessions`;
+CREATE TABLE `prefix_sessions` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `chat` bigint(20) NOT NULL,
+  `user` bigint(20) NOT NULL,
+  `requested` datetime,
+  `accepted` datetime,
+  `end` datetime,
+  PRIMARY KEY (`id`),
+  KEY `chat` (`chat`),
+  KEY `user` (`user`),
+  KEY `requested` (`requested`),
+  KEY `accepted` (`accepted`),
+  KEY `end` (`end`)
+) ENGINE=MyISAM /*!40101 CHARACTER SET=utf8 COLLATE utf8_unicode_ci */;
+
+DROP TABLE IF EXISTS `prefix_settings`;
+CREATE TABLE `prefix_settings` (
+  `name` varchar(50) NOT NULL default '',
+  `value` longtext NOT NULL,
+  PRIMARY KEY (`name`)
+) ENGINE=MyISAM /*!40101 CHARACTER SET=utf8 */;
+
+DROP TABLE IF EXISTS `prefix_sms`;
+CREATE TABLE `prefix_sms` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `datetime` datetime,
+  `sid` varchar(35) NOT NULL default '',
+  `conversation` varchar(36) NOT NULL default '',
+  `user` bigint(20) NOT NULL,
+  `body` text NOT NULL,
+  `mediaurls` text NOT NULL,
+  `status` varchar(20) NOT NULL default '',
+  `price` numeric(15,7) NOT NULL default '0',
+  `priceunit` varchar(3) NOT NULL default '',
+  PRIMARY KEY (`id`),
+  KEY `conversation` (`conversation`),
+  KEY `sid` (`sid`)
+) ENGINE=MyISAM /*!40101 CHARACTER SET=utf8 COLLATE utf8_unicode_ci */;
+
+DROP TABLE IF EXISTS `prefix_smsconversations`;
+CREATE TABLE `prefix_smsconversations` (
+  `id` varchar(36) NOT NULL default '',
+  `datetime` datetime,
+  `from` varchar(20) NOT NULL default '',
+  `to` varchar(20) NOT NULL default '',
+  `user` bigint(20) NOT NULL default 0,
+  `department` text NOT NULL,
+  `status` int(1) NOT NULL default 0,
+  PRIMARY KEY (`id`),
+  KEY `datetime` (`datetime`),
+  KEY `from` (`from`),
+  KEY `to` (`to`),
+  KEY `user` (`user`)
+) ENGINE=MyISAM /*!40101 CHARACTER SET=utf8 COLLATE utf8_unicode_ci */;
+
+DROP TABLE IF EXISTS `prefix_totp`;
+CREATE TABLE `prefix_totp` (
+  `user` bigint(20) NOT NULL default '0',
+  `secret` varchar(16) NOT NULL default '',
+  `backup` text NOT NULL,
+  PRIMARY KEY (`user`)
+) ENGINE=MyISAM /*!40101 CHARACTER SET=utf8 COLLATE utf8_unicode_ci */;
+
+DROP TABLE IF EXISTS `prefix_typing`;
+CREATE TABLE `prefix_typing` (
+  `id` binary(20) NOT NULL,
+  `chat` bigint(20) NOT NULL,
+  `user` bigint(20) NOT NULL,
+  `status` int(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `session` (`chat`, `user`)
+) ENGINE=MyISAM /*!40101 CHARACTER SET=utf8 COLLATE utf8_unicode_ci */;
+
+DROP TABLE IF EXISTS `prefix_users`;
+CREATE TABLE `prefix_users` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `username` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL default '',
+  `password` text NOT NULL,
+  `firstname` varchar(50) NOT NULL default '',
+  `lastname` varchar(50) NOT NULL default '',
+  `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL default '',
+  `department` text NOT NULL,
+  `image` longtext NOT NULL,
+  `datetime` datetime,
+  `refresh` datetime,
+  `updated` datetime,
+  `disabled` int(1) NOT NULL default '0',
+  `privilege` int(1) NOT NULL default '0',
+  `status` bigint(20) NOT NULL default '0',
+  `custom` bigint(20) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `username` (`username`),
+  UNIQUE KEY `email` (`email`),
+  KEY `refresh` (`refresh`),
+  KEY `status` (`status`)
+) ENGINE=MyISAM /*!40101 CHARACTER SET=utf8 COLLATE utf8_unicode_ci */;
+
+DROP TABLE IF EXISTS `prefix_websockets`;
+CREATE TABLE `prefix_websockets` (
+  `id` bigint(20) NOT NULL,
+  `timestamp` bigint(20) NOT NULL,
+  `websocket` int(1) NOT NULL default '0',
+  `active` int(1) NOT NULL default '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM /*!40101 CHARACTER SET=utf8 COLLATE utf8_unicode_ci */;

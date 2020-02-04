@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>chatstack.com - Live Chat Customer Service Software, Live Help, Customer Support</title>
+<meta name="robots" content="noindex, follow"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<style type="text/css">
+<!--
+body {
+	font-family: 'Lato', 'Helvetica Neue', sans-serif;
+	font-size: 16px;
+	background-color: #F9F9F9;
+	margin: 20px auto;
+}
+#background {
+	position: absolute;
+	top: 0;
+	width: 100%;
+	background:url('images/BackgroundSprite.png') repeat-x;
+}
+h1 {
+	font-family: 'Lato Light', 'Helvetica Neue', sans-serif;
+	padding-top: 30px;
+	text-shadow: 0 0 1px #ccc;
+	font-size: 32px;
+	font-weight: 100;
+	line-height: normal;
+	color: #999;
+}
+.title {
+	text-align: center;
+}
+.left {
+	text-align: left;
+}
+.center {
+	text-align: center;
+}
+pre code {
+  padding: 20px 25px;
+  border-radius: 5px;
+  white-space: pre;
+	text-align: left;
+}
+pre {
+  padding: 0;
+  margin: 25px 0;
+  font-size: 18px;
+  line-height: normal;
+  color: inherit;
+  white-space: pre;
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+	text-align: left;
+}
+a {
+	border: none;
+}
+.content {
+	width: 960px;
+	margin: 0 auto;
+	position: relative;
+	top: -25px;
+	z-index: 10;
+}
+.logo {
+	position: relative;
+	z-index: 100;
+}
+.container {
+	width: 800px;
+	background-color: #FEFEFE;
+	border-radius: 15px;
+	margin: 0px auto;
+}
+.container div {
+	margin-bottom: 15px;
+}
+.sub-container {
+	width: 90%;
+	margin: 0 auto;
+}
+.copyright {
+	color: #aaa;
+	font-size: 12px;
+	font-weight: 200;
+	text-align: center;
+	margin: 10px 100px;
+}
+.copyright a {
+	color: #aaa;
+	font-size: 12px;
+	font-weight: 200;
+}
+.bottom {
+	padding-bottom: 50px;
+}
+-->
+</style>
+<script type="text/JavaScript" src="scripts/jquery-latest.js"></script>
+<script type="text/javascript" src="scripts/highlight.min.js"></script>
+<link type="text/css" rel="stylesheet" href="styles/zenburn.css"/>
+<script type="text/javascript">
+<!--
+	var Chatstack = {};
+	Chatstack.server = document.location.host + document.location.pathname.substring(0, document.location.pathname.indexOf('/livehelp'));
+	Chatstack.embedded = true;
+	Chatstack.fonts = false;
+	Chatstack.theme = 'turquoise';
+	Chatstack.introduction = 'Hey, how are you going? Would you like to know how live chat can help increase conversions?';
+	Chatstack.sidebar = true;
+	Chatstack.hidden = true;
+	Chatstack.name = 'Luke Ronalds';
+	Chatstack.email = 'lukeronalds@stardevelop.com';
+	Chatstack.custom = 'Chatstack';
+	Chatstack.useragent = 'Chatstack Mac App/2.0.1500 (Mac OS X 10.11.1; electron.js 0.35.0) Chrome/45.0.2454.85';
+	Chatstack.referrer = 'app.chatstack.com';
+	Chatstack.initiate = false;
+	Chatstack.language = { online: 'Help / Feedback' };
+	Chatstack.cookie = { expires: 180, localStorage: true };
+
+	/*
+	Chatstack.name = 'Chloe Smith';
+	Chatstack.email = 'chloe@stardevelop.com';
+	Chatstack.colors = {tab: {normal: '#dddedf', hover: '#c9cacc'}};
+	Chatstack.theme = 'dark'; // light or dark
+	Chatstack.introduction = 'Hey, how are you going? Would you like to know how live chat can help increase conversions?';
+	Chatstack.department = 'Support';
+	Chatstack.initiateDelay = 3000;
+	Chatstack.initiate = false;
+	Chatstack.initiateDelay = 3000;
+	Chatstack.language = { initiatechatquestion: 'Do you have any questions regarding our Live Chat software that I can help you with?' };
+	*/
+
+	(function(d, undefined) {
+		// JavaScript
+		var LiveHelp = d.createElement('script'); LiveHelp.type = 'text/javascript'; LiveHelp.async = true;
+		LiveHelp.src = ('https:' == d.location.protocol ? 'https://' : 'http://') + Chatstack.server + '/livehelp/scripts/js.js';
+		var s = d.getElementsByTagName('script')[0];
+		s.parentNode.insertBefore(LiveHelp, s);
+	})(document);
+
+-->
+</script>
+<script type="text/javascript">
+<!--
+
+	// Document Ready
+	$(window).ready(function() {
+
+		// Hostname
+		var host = document.location.host + document.location.pathname.substring(0, document.location.pathname.indexOf('/livehelp/'));
+
+		// HTML Code
+		var html = $('#LiveHelpHTMLStep1').html();
+		html = html.replace(/www\.example\.com/g, host);
+		$('#LiveHelpHTMLStep1').html(html);
+		html = $('#LiveHelpHTMLStep2').html();
+		html = html.replace('http://www.example.com', ('https:' == document.location.protocol ? 'https://' : 'http://') + host);
+		$('#LiveHelpHTMLStep2').html(html);
+
+		hljs.configure({useBR: false, tabReplace: ' '});
+
+		$('pre code').each(function(i, block) {
+			hljs.highlightBlock(block);
+		});
+
+	});
+
+-->
+</script>
+</head>
+<body>
+	<div id="background" class="background"></div>
+	<div class="center">
+		<img src="images/LogoLarge.png" alt="Chatstack" title="Chatstack" class="logo"/>
+	</div>
+	<div class="content">
+		<div class="container">
+			<div class="sub-container">
+				<h1 class="title">Awesome!  You're ready to start chatting!</h1>
+				<div>You can use the button and widget below to try the software before you place the HTML code on your web site. When you are ready to add the code to your website, please follow the steps below.</div>
+				<div class="center">
+					<a href="#" class="LiveHelpButton default"><img src="status.php" id="LiveHelpStatusDefault" alt="Live Help" class="LiveHelpStatus"/></a>
+				</div>
+				<h1 class="left">Step 1</h1>
+				<div>The HTML code below is used to monitor your site visitors and setup the chat widget.  Please insert this code between your &lt;head&gt; and &lt;/head&gt; tags.</div>
+				<div>
+					<pre><code id="LiveHelpHTMLStep1" class="html">&lt;script type="text/JavaScript" src="http://www.example.com/livehelp/scripts/jquery-latest.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+&lt;!--
+	var Chatstack = {};
+	Chatstack.server = 'www.example.com';
+	Chatstack.embedded = true;
+
+	(function($) {
+		$(function() {
+			$(window).ready(function() {
+				// JavaScript
+				Chatstack.e = []; Chatstack.ready = function (c) { Chatstack.e.push(c); }
+				Chatstack.server = Chatstack.server.replace(/[a-z][a-z0-9+\-.]*:\/\/|\/livehelp\/*(\/|[a-z0-9\-._~%!$&amp;'()*+,;=:@\/]*(?![a-z0-9\-._~%!$&amp;'()*+,;=:@]))|\/*$/g, '');
+				var b = document.createElement('script'); b.type = 'text/javascript'; b.async = true;
+				b.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + Chatstack.server + '/livehelp/scripts/jquery.livehelp.min.js';
+				var s = document.getElementsByTagName('script')[0];
+				s.parentNode.insertBefore(b, s);
+			});
+		});
+	})(jQuery);
+--&gt;
+&lt;/script&gt;</code></pre>
+				</div>
+				<h1 class="left">Step 2 (Optional)</h1>
+				<div>The HTML code below is used to display the live chat Online / Offline button.  Please place this code where you wish the button to appear.</div>
+				<div class="bottom">
+<pre><code id="LiveHelpHTMLStep2" class="html">&lt;!-- Start Chatstack / Live Chat Button //--&gt;
+&lt;a href="#" class="LiveHelpButton default">&lt;img src="http://www.example.com/livehelp/status.php" id="LiveHelpStatusDefault" name="LiveHelpStatusDefault" border="0" alt="Live Help" class="LiveHelpStatus"/&gt;&lt;/a&gt;
+&lt;!-- End Chatstack / Live Chat Button //--&gt;</code></pre>
+				</div>
+			</div>
+		</div>
+		<div class="copyright">Copyright &copy; 2003-2017 Stardevelop Pty Ltd All Rights Reserved - <a href="https://www.chatstack.com">Live Chat Software</a></div>
+	</div>
+</body>
+</html>

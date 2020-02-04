@@ -1,0 +1,3 @@
+# Add Address Settings
+INSERT INTO `prefix_settings` (`name`, `value`) VALUES ('Address', '') ON DUPLICATE KEY UPDATE `name` = `name`;
+INSERT INTO `prefix_settings` (`name`, `value`) VALUES ('Telephone', '') ON DUPLICATE KEY UPDATE `name` = `name`;

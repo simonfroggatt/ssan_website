@@ -1,0 +1,2 @@
+# Add Initiate Chat Logo Setting
+INSERT INTO `prefix_settings` (`name`, `value`) VALUES ('InitiateChatLogo', '') ON DUPLICATE KEY UPDATE `name` = `name`;

@@ -1,0 +1,181 @@
+v5.5
+
+- Added WHMCS client address, products / services, client notes to visitor details sidebar
+- Added separate WHMCS MySQL database connection support (Enterprise licenses only)
+- Fixed PHP 7.1 compatibility issues
+- Minor bug fixes
+
+v5.4
+
+ - Added operator-only messages for private team communication during customer chat
+ - Added chat tab color and image appearance settings
+ - Updated i18n language pack codes
+ - Improved web application operator messages
+ - Updated PHPMailer 5.2.22 (SECURITY - Critical security update for CVE-2016-10033, CVE-2016-10045 and CVE-2017-5223)
+ - Minor bug fixes
+
+v5.3
+
+ - Added Linux and Mac app support for new Mac and Linux desktop apps
+ - Added basic markdown support in operator chat messages
+ - Added Javascript API - see https://www.chatstack.com/api/ (requires update to live chat HTML code)
+ - Added iOS 9 Quick Reply feature to push notifications (requires iPhone app update)
+ - Fixed PHP 7 compatibility issues
+ - Updated WordPress plugin
+ - Minor bug fixes
+
+v5.2
+
+ - Added chat sidebar layout option
+ - Added mobile chat button
+ - Added PHP namespace stardevelop\chatstack
+ - Added new initiate chat style
+ - Added custom initiate chat messages
+ - Added feedback and updated chat rating user interface
+ - Improved statistics user interface
+ - Fixed WHMCS v6.3 ticket formatting issue
+ - Minor bug fixes
+
+v5.1
+
+ - Added quick access to pre-typed responses and keyboard shortcut tip under the message input
+ - Added visitor details at right side of the chat
+ - Added FullContact API and Integration
+ - Added offline email chat tab when chat is set offline status
+ - Added JavaScript options to pass in name and email to the visitors list using LiveHelpSettings.name and LiveHelpSettings.email
+ - Added setting to override initiate chat photo and show logo instead at Settings > Images > Initiate Chat Logo
+ - Fixed activity feed web service within Windows desktop app
+ - Minor bug fixes
+
+v5.0
+
+  - Major core rewrite (requires PHP 5.3.7 with PDO MySQL support and MySQL 5.1)
+  - Updated embedded chat tab style
+  - Updated chat invite / initiate chat style
+	  - recommended to use with a team member Gravatar photo to build trust with your customers
+  - Updated web app UI
+  - Updated branding from Live Help to Chatstack
+  - Migrated to Bootstrap v3.0
+  - Removed legacy blue chat tab slider
+    - previously shown docked on right side of browser
+    - customers should now use the embedded chat tab as this provided full chat functionality
+  - Removed legacy initiate chat
+  - Added JavaScript settings to change embedded chat tab color
+  - Added internal SMTP settings for sending emails
+  - Improved WHMCS Hook / authentication update for v4.1 Rev. 3
+  - Fixed repeating initiate chat message
+  - Fixed WHMCS HTML entities issue
+  - Fixed HTML5 web administration notifications with SSL and world map
+  - Fixed unavailable visitors and chats chart
+  - Minor bug fixes
+
+v4.1 Rev. 2
+
+  - Fixed embedded chat sprite issue
+  - Removed legacy Live Help HTML code (i.e. /livehelp/include/javascript.php)
+  - Deleted unused files
+	  - /livehelp/include/auth.php
+	  - /livehelp/include/blank.php
+	  - /livehelp/include/javascript.php
+	  - /livehelp/include/tracker.php
+	  - /livehelp/typing.php
+
+v4.1 Rev. 1
+
+  - Added world map visitor location to HTML5 administration
+  - Added embedded chat operator details auto hide
+  - Added block chat option (HTML5 Administration)
+  - Added multiple device PUSH messaging (multiple mobile devices can receive PUSH alerts for a single operator account)
+  - Added Google Chrome speech-to-text support (embedded chat)
+  - Added HTML5 administration language pack
+  - Added HTML5 administration password reset
+  - Added HTML5 administration delete pre-typed response
+  - Added HTML5 administration typing indicator
+  - Added minimum jQuery support for jQuery 1.4.4 (web pages can now use jQuery 1.4.4 with the Live Help HTML code)
+  - Added manual setting to disable WHMCS ticket generation ($_SETTINGS['WHMCSTICKETS'] = false)
+  - Added WHMCS knowledgebase article links as pre-typed responses
+  - Fixed statistics time zone issue
+  - Fixed history time formatting issue
+  - Fixed JSON UTF-8 ossues
+  - Fixed HTML5 administration adding PUSH command issue
+  - Fixed add account refresh showing new account
+  - Improved Google Adwords keyword detection
+  - Improved HTML5 administration UI
+  - Removed legacy IP2Country database (MaxMind is the only supported option for visitor locations)
+  - Minor bug fixes
+
+v4.0 Rev. 9
+
+  - Added Windows 8 app tile support
+  - Updated JavaScript libraries
+  - Improved overriding OperatorStatus mode when using iPhone and Android apps
+  - Fixed SQL security vulnerability within /livehelp/include/conversion.php
+  - Removed legacy PHP files within /livehelp/scripts/
+  - Fixed HTML5 administration sound issue
+  - Fixed WHMCS 5.2 compatibility hook issue
+  - Fixed WHMCS HTML special characters login issue
+
+v4.0
+
+  - Added HTML5 web based adminstration
+  - Added statistics / charts
+  - Updated authentication to v4.0 (Bcrypt)
+  - Added WHMCS ticket masking
+  - Added Google Cloud Messaging support
+  - Fixed popup window disconnect issue
+  - Fixed switch popup window cache issue
+  - Improved email functionality
+  - Improved AES mcrypt module detection
+  - Fixed various CSS conflicts
+  - Updated jQuery v1.8.0 library
+  - Minor bug fixes
+
+v3.95 Rev. 7
+
+  - Added WHMCS hook language pack support
+  - Added email parameters setting
+  - Improved embedded chat CSS compatibility
+  - Fixed web based administration login issue
+  - Fixed security code unsupported validation issue
+  - Fixed installation operator account issue
+  - Fixed WHMCS login case sensitive issue
+  - Fixed WHMCS hidden departments issue
+  - Fixed WHMCS cart issue
+  - Fixed close chat notification issue
+
+v3.95 Rev. 6
+
+  - Fixed jQuery noConflict errors
+  - Added jQuery JavaScript language pack and protocol settings
+  - Fixed JSON callback PHP compatibility issue
+  - Added jQuery JavaScript HTTP / HTTPS protocol override setting
+  - Updated global / country top-level domains
+  - Improved embedded chat CSS compatibility
+  - Fixed initiate chat position / accept button issue
+  - Fixed WHMCS chat transcript ticketing issue
+
+v3.95 Rev. 5
+
+  - Added embedded chat
+  - Added HTML5 sounds
+  - Updated templates for HTML5 sound library
+  - Updated default templates
+  - Removed WHMCS portal template (default template style matches WHMCS v5)
+  - Removed frames template
+  - Updated Joomla and WordPress plugins to v1.60
+  - Improved embedded chat and popup window chat JavaScript
+  - Improved first party cookie support (removed third-party cookies)
+  - Updated WHMCS hook HTML code
+  - Added WHMCS account integration
+  - Fixed security code GD2 extension Windows UNC path issue
+  - Fixed XHTML compliance issues
+  - Fixed WHMCS configuration whitespace issue
+  - Fixed JavaScript setting issues
+  - Fixed IP address validation issue
+  - Added WordPress w/ auto install plugin (installs Live Help MySQL database into the WordPress database)
+  - Added jQuery noConflict option and chat tab slider options to the WordPress plugin
+  - Added PHP mail() From and Return-Path header parameters
+  - Added jQuery easing framework
+  - Added slider chat tab slider options to the Joomla module
+  - Updated Joomla module version 1.6.0
+  - Updated WordPress plugin version 1.60

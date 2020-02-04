@@ -1,0 +1,5 @@
+# Remove Users Device Column
+ALTER TABLE `prefix_users` DROP `device`;
+
+# Geolocation Key
+ALTER TABLE `prefix_geolocation` ADD KEY `request` (`request`);

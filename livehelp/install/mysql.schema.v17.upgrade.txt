@@ -1,0 +1,5 @@
+# Add Chat Hash
+ALTER TABLE `prefix_chats` ADD `hash` VARCHAR( 36 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL default '' AFTER `id`;
+
+# Add Custom Request Key
+ALTER TABLE `prefix_custom` ADD INDEX `request` (`request`);

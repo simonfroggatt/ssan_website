@@ -1,0 +1,53 @@
+# Create Chat Ratings Table
+CREATE TABLE IF NOT EXISTS `prefix_ratings` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `chat` bigint(20) NOT NULL default '0',
+  `user` bigint(20) NOT NULL default '0',
+  `rating` int(1) NOT NULL default '0',
+  PRIMARY KEY (`id`),
+  KEY `chat` (`chat`),
+  KEY `user` (`user`)
+) ENGINE=MyISAM /*!40101 CHARACTER SET=utf8 COLLATE utf8_unicode_ci */;
+
+# Insert Ratings
+INSERT `prefix_ratings` (`chat`, `user`, `rating`) SELECT `chat`.`id` AS `chat`, `users`.`id` AS `user`, `rating` FROM `prefix_messages` AS `messages`, `prefix_users` AS `users`, `prefix_chats` AS `chat` WHERE `users`.`username` = `messages`.`username` AND `chat`.`id` = `messages`.`chat` AND `messages`.`status` = 1 AND `rating` > 0 GROUP BY `chat`.`id`;
+
+# Adjust Chats Table
+ALTER TABLE `prefix_chats` CHANGE `username` `name` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+ALTER TABLE `prefix_chats` CHANGE `email` `email` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+ALTER TABLE `prefix_chats` CHANGE `server` `server` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+ALTER TABLE `prefix_chats` CHANGE `department` `department` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+ALTER TABLE `prefix_chats` CHANGE `active` `status` INT(1) NOT NULL default '0';
+ALTER TABLE `prefix_chats` DROP `question`;
+ALTER TABLE `prefix_chats` DROP `rating`;
+ALTER TABLE `prefix_chats` DROP `typing`;
+ALTER TABLE `prefix_chats` DROP `transfer`;
+
+# Add Chat Sessions Table
+CREATE TABLE IF NOT EXISTS `prefix_sessions` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `chat` bigint(20) NOT NULL,
+  `user` bigint(20) NOT NULL,
+  `requested` datetime,
+  `accepted` datetime,
+  `end` datetime,
+  PRIMARY KEY (`id`),
+  KEY `chat` (`chat`),
+  KEY `user` (`user`),
+  KEY `requested` (`requested`),
+  KEY `accepted` (`accepted`),
+  KEY `end` (`end`)
+) ENGINE=MyISAM /*!40101 CHARACTER SET=utf8 COLLATE utf8_unicode_ci */;
+
+# Adjust Activity Default
+ALTER TABLE `prefix_activity` CHANGE `duration` `duration` INT(11) NOT NULL default '0';
+
+# Add Typing Table
+CREATE TABLE IF NOT EXISTS `prefix_typing` (
+  `id` binary(20) NOT NULL,
+  `chat` bigint(20) NOT NULL,
+  `user` bigint(20) NOT NULL,
+  `status` int(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `session` (`chat`, `user`)
+) ENGINE=MyISAM /*!40101 CHARACTER SET=utf8 COLLATE utf8_unicode_ci */;

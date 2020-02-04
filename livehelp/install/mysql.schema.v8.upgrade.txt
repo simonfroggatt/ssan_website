@@ -1,0 +1,40 @@
+# Drop Unused Conversion Tables
+DROP TABLE IF EXISTS `prefix_orderproducts`;
+DROP TABLE IF EXISTS `prefix_orders`;
+DROP TABLE IF EXISTS `prefix_products`;
+
+# Operator Messages
+CREATE TABLE IF NOT EXISTS `prefix_operatormessages` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `from` bigint(20) NOT NULL default '0',
+  `to` bigint(20) NOT NULL default '0',
+  `datetime` datetime,
+  `message` text NOT NULL,
+  `align` int(1) NOT NULL default '0',
+  `status` int(1) NOT NULL default '0',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM /*!40101 CHARACTER SET=utf8 COLLATE utf8_unicode_ci */;
+
+# Two Factor TOTP
+CREATE TABLE IF NOT EXISTS `prefix_totp` (
+  `user` bigint(20) NOT NULL default '0',
+  `secret` varchar(16) NOT NULL default '',
+  `backup` text NOT NULL,
+  PRIMARY KEY  (`user`)
+) ENGINE=MyISAM /*!40101 CHARACTER SET=utf8 COLLATE utf8_unicode_ci */;
+
+# Expired TOTP Tokens
+CREATE TABLE IF NOT EXISTS `prefix_expiredtotp` (
+  `id` binary(20) NOT NULL,
+  `datetime` datetime,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM /*!40101 CHARACTER SET=utf8 COLLATE utf8_unicode_ci */;
+
+# Departments
+CREATE TABLE IF NOT EXISTS `prefix_departments` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `name` text NOT NULL,
+  `email` varchar(50) NOT NULL default '',
+  `status` int(1) NOT NULL default '0',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM /*!40101 CHARACTER SET=utf8 COLLATE utf8_unicode_ci */;

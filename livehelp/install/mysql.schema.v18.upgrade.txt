@@ -1,0 +1,85 @@
+# Add Initiate Chat Table
+CREATE TABLE IF NOT EXISTS `prefix_initiatechat` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `request` bigint(20) NOT NULL,
+  `datetime` datetime,
+  `user` bigint(20) NOT NULL,
+  `message` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `request` (`request`),
+  KEY `user` (`user`)
+) ENGINE=MyISAM /*!40101 CHARACTER SET=utf8 COLLATE utf8_unicode_ci */;
+
+# Web Sockets
+CREATE TABLE IF NOT EXISTS `prefix_websockets` (
+  `id` bigint(20) NOT NULL,
+  `timestamp` bigint(20) NOT NULL,
+  `websocket` int(1) NOT NULL default '0',
+  `active` int(1) NOT NULL default '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM /*!40101 CHARACTER SET=utf8 COLLATE utf8_unicode_ci */;
+
+# SMS Messages
+CREATE TABLE IF NOT EXISTS `prefix_sms` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `datetime` datetime,
+  `sid` varchar(35) NOT NULL default '',
+  `conversation` varchar(36) NOT NULL default '',
+  `user` bigint(20) NOT NULL,
+  `body` text NOT NULL,
+  `mediaurls` text NOT NULL,
+  `status` varchar(20) NOT NULL default '',
+  `price` numeric(15,7) NOT NULL default '0',
+  `priceunit` varchar(3) NOT NULL default '',
+  PRIMARY KEY (`id`),
+  KEY `conversation` (`conversation`),
+  KEY `sid` (`sid`)
+) ENGINE=MyISAM /*!55003 CHARACTER SET=utf8mb4 COLLATE utf8mb4_unicode_ci */;
+
+# SMS Table Character Set
+ALTER TABLE `prefix_sms` ENGINE=InnoDB /*!50503 CHARACTER SET=utf8mb4 COLLATE utf8mb4_unicode_ci */;
+ALTER TABLE `prefix_sms` CHANGE `sid` `sid` varchar(35) /*!50503 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */ NOT NULL DEFAULT '';
+ALTER TABLE `prefix_sms` CHANGE `conversation` `conversation` varchar(36) /*!50503 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */ NOT NULL DEFAULT '';
+ALTER TABLE `prefix_sms` CHANGE `body` `body` text /*!50503 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */ NOT NULL;
+ALTER TABLE `prefix_sms` CHANGE `mediaurls` `mediaurls` text /*!50503 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */ NOT NULL;
+ALTER TABLE `prefix_sms` CHANGE `status` `status` varchar(20) /*!50503 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */ NOT NULL DEFAULT '';
+ALTER TABLE `prefix_sms` CHANGE `priceunit` `priceunit` varchar(3) /*!50503 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */ NOT NULL DEFAULT '';
+
+# SMS Conversations
+CREATE TABLE IF NOT EXISTS `prefix_smsconversations` (
+  `id` varchar(36) NOT NULL default '',
+  `datetime` datetime,
+  `from` varchar(20) NOT NULL default '',
+  `to` varchar(20) NOT NULL default '',
+  `user` bigint(20) NOT NULL default 0,
+  `department` text NOT NULL,
+  `status` int(1) NOT NULL default 0,
+  PRIMARY KEY (`id`),
+  KEY `datetime` (`datetime`),
+  KEY `from` (`from`),
+  KEY `to` (`to`),
+  KEY `user` (`user`)
+) ENGINE=MyISAM /*!40101 CHARACTER SET=utf8 COLLATE utf8_unicode_ci */;
+
+# SMS Contacts
+CREATE TABLE IF NOT EXISTS `prefix_contacts` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `datetime` datetime,
+  `telephone` varchar(20) NOT NULL default '',
+  `name` varchar(50) NOT NULL default '',
+  `email` varchar(255) NOT NULL default '',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM /*!40101 CHARACTER SET=utf8 COLLATE utf8_unicode_ci */;
+
+# Email Field
+ALTER TABLE `prefix_contacts` CHANGE `email` `email` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL default '';
+
+# Infusionsoft Tags
+CREATE TABLE IF NOT EXISTS `prefix_infusionsofttags` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `tag` bigint(20) NOT NULL,
+  `name` text NOT NULL,
+  `description` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY (`tag`)
+) ENGINE=MyISAM /*!40101 CHARACTER SET=utf8 COLLATE utf8_unicode_ci */;

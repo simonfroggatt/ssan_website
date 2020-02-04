@@ -1,0 +1,41 @@
+DROP TABLE IF EXISTS `prefix_activity`;
+
+DROP TABLE IF EXISTS `prefix_administration`;
+
+DROP TABLE IF EXISTS `prefix_callback`;
+
+DROP TABLE IF EXISTS `prefix_chats`;
+
+DROP TABLE IF EXISTS `prefix_countries`;
+
+DROP TABLE IF EXISTS `prefix_custom`;
+
+DROP TABLE IF EXISTS `prefix_departments`;
+
+DROP TABLE IF EXISTS `prefix_devices`;
+
+DROP TABLE IF EXISTS `prefix_expiredtotp`;
+
+DROP TABLE IF EXISTS `prefix_geolocation`;
+
+DROP TABLE IF EXISTS `prefix_messages`;
+
+DROP TABLE IF EXISTS `prefix_operatormessages`;
+
+DROP TABLE IF EXISTS `prefix_ratings`;
+
+DROP TABLE IF EXISTS `prefix_requests`;
+
+DROP TABLE IF EXISTS `prefix_responses`;
+
+DROP TABLE IF EXISTS `prefix_sessions`;
+
+DROP TABLE IF EXISTS `prefix_settings`;
+
+DROP TABLE IF EXISTS `prefix_totp`;
+
+DROP TABLE IF EXISTS `prefix_typing`;
+
+DROP TABLE IF EXISTS `prefix_users`;
+
+DROP TABLE IF EXISTS `prefix_websockets`;

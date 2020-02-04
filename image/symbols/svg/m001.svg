@@ -1,0 +1,8 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="70mm" height="70mm" viewBox="0 0 198.43 198.43">
+  <title>m001</title>
+  <g id="symbolgrp">
+    <path d="M297,520.23A99.22,99.22,0,1,0,197.72,421,99.22,99.22,0,0,0,297,520.23Z" transform="translate(-197.72 -321.79)" fill="#056bb3" fill-rule="evenodd"/>
+    <path d="M297.12,500.43a16.2,16.2,0,1,0-16.2-16.2,16.22,16.22,0,0,0,16.2,16.2Z" transform="translate(-197.72 -321.79)" fill="#fff" stroke="#056bb3" stroke-miterlimit="2.61" stroke-width="8.38" fill-rule="evenodd"/>
+    <path d="M297.12,341.52c12.89,0,24.77,11.81,23.4,23.4l-11.09,81.65c-1.08,7.13-5.54,12.31-12.31,12.31s-11.23-5.18-12.31-12.31l-11.09-81.65c-1.44-11.59,10.44-23.4,23.4-23.4Z" transform="translate(-197.72 -321.79)" fill="#fff" stroke="#056bb3" stroke-miterlimit="2.61" stroke-width="5.53" fill-rule="evenodd"/>
+  </g>
+</svg>
