@@ -62,7 +62,7 @@ class ControllerExtensionPaymentSagepayServer extends Controller {
 
 		$order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
 
-		$payment_data['ReferrerID'] = 'E511AF91-E4A0-42DE-80B0-09C981A3FB61';
+		//$payment_data['ReferrerID'] = 'E511AF91-E4A0-42DE-80B0-09C981A3FB61';
 		$payment_data['Vendor'] = $this->config->get('sagepay_server_vendor');
 		$payment_data['VendorTxCode'] = $this->session->data['order_id'] . 'T' . strftime("%Y%m%d%H%M%S") . mt_rand(1, 999);
 		$payment_data['Amount'] = $this->currency->format($order_info['total'], $order_info['currency_code'], false, false);

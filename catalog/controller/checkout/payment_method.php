@@ -53,18 +53,21 @@ class ControllerCheckoutPaymentMethod extends Controller {
 					$method = $this->{'model_extension_payment_' . $result['code']}->getMethod($this->session->data['payment_address'], $total);
 
 					if ($method) {
-						if ($recurring) {
-							if (property_exists($this->{'model_extension_payment_' . $result['code']}, 'recurringPayments') && $this->{'model_extension_payment_' . $result['code']}->recurringPayments()) {
-								$method_data[$result['code']] = $method;
-							}
-						} else {
-							$method_data[$result['code']] = $method;
-						}
+					        if ($recurring) {
+                                if (property_exists($this->{'model_extension_payment_' . $result['code']}, 'recurringPayments') && $this->{'model_extension_payment_' . $result['code']}->recurringPayments()) {
+                                    $method_data[$result['code']] = $method;
+                                }
+                            } else {
+                                $method_data[$result['code']] = $method;
+                            }
 					}
 				}
 			}
 
 			$sort_order = array();
+            //SSAN - do temp paypal / sagepay check
+            $method_data = $this->isMethodValid($method_data);
+
 
 			foreach ($method_data as $key => $value) {
 				$sort_order[$key] = $value['sort_order'];
@@ -189,4 +192,50 @@ class ControllerCheckoutPaymentMethod extends Controller {
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
 	}
+
+	private function isMethodValid($method_data) {
+	    $filename = './paycount.json';
+        $json = file_get_contents($filename);
+        $bl_show_payment = true;
+
+        //Decode JSON
+        $json_data = json_decode($json,true);
+        $threshold = $json_data['threshold'];
+        $paycount = $json_data['counter'];
+
+        if($paycount >= $threshold){
+            $blsagepay = true;
+        }
+        else {
+            $blsagepay = false;
+        }
+
+        $method_out_data = [];
+        foreach ($method_data as $key => $value) {
+            switch ($key) {
+                case 'pp_pro':
+                    if(!$blsagepay){
+                        $method_out_data[$key] = $value;
+                        $paycount++;
+                    }
+                    break;
+                case 'sagepay_direct':
+                    if($blsagepay){
+                        $method_out_data[$key] = $value;
+                        $paycount = 0;
+                    }
+                    break;
+                default:
+                    $method_out_data[$key] = $value;
+                    break;
+            }
+        }
+
+
+        $json_data['counter'] = $paycount;
+        $json_data_out = json_encode($json_data);
+        file_put_contents($filename, $json_data_out);
+
+        return $method_out_data;
+    }
 }

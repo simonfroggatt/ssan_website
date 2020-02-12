@@ -23,7 +23,8 @@ class ControllerStartupStartup extends Controller {
 		
 		// Settings
 		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "setting` WHERE store_id = '0' OR store_id = '" . (int)$this->config->get('config_store_id') . "' ORDER BY store_id ASC");
-		
+
+
 		foreach ($query->rows as $result) {
 			if (!$result['serialized']) {
 				$this->config->set($result['key'], $result['value']);
@@ -31,6 +32,21 @@ class ControllerStartupStartup extends Controller {
 				$this->config->set($result['key'], json_decode($result['value'], true));
 			}
 		}
+
+        //SSAN - JSON loading - Allows us to overirde and add additional setting without using crappy opencart DB
+        $json = file_get_contents('./ssan_config.json');
+
+    //Decode JSON
+        $json_data = json_decode($json,true);
+
+        foreach ($json_data as $result_json) {
+            if (!$result_json['serialized']) {
+                $this->config->set($result_json['key'], $result_json['value']);
+            } else {
+                $this->config->set($result_json['key'], json_decode($result_json['value'], true));
+            }
+        }
+
 
 		// Url
 		$this->registry->set('url', new Url($this->config->get('config_url'), $this->config->get('config_ssl')));
