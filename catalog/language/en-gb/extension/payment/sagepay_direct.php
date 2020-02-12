@@ -1,6 +1,6 @@
 <?php
 // Text
-$_['text_title']				= 'Credit Card / Debit Card (SagePay)';
+$_['text_title']				= 'Credit Card / Debit Card (Secured via SagePay)';
 $_['text_credit_card']			= 'Card Details';
 $_['text_card_type']			= 'Card Type: ';
 $_['text_card_name']			= 'Card Name: ';
@@ -17,7 +17,7 @@ $_['entry_card']				= 'New or Existing Card: ';
 $_['entry_card_existing']		= 'Existing';
 $_['entry_card_new']			= 'New';
 $_['entry_card_save']			= 'Remember Card Details';
-$_['entry_cc_owner']			= 'Card Owner';
+$_['entry_cc_owner']			= 'Name on Card';
 $_['entry_cc_type']				= 'Card Type';
 $_['entry_cc_number']			= 'Card Number';
 $_['entry_cc_expire_date']		= 'Card Expiry Date';
