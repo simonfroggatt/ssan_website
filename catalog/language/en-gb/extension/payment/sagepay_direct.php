@@ -1,6 +1,6 @@
 <?php
 // Text
-$_['text_title']				= 'Credit or Debit Card';
+$_['text_title']				= 'Credit or Debit Card (secured by SagePay';
 $_['text_credit_card']			= 'Card Details';
 $_['text_card_type']			= 'Card Type: ';
 $_['text_card_name']			= 'Card Name: ';
