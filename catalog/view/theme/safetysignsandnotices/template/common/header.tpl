@@ -114,6 +114,32 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
 
+  <div id="full-width-header-covid">
+      <div class="container">
+          <div class="col-sm-12 ">
+              <div class="row text-center covid-header">
+                  COVID-19 latest update - 24/03/2020
+              </div>
+              <div class="row">
+                  <p class="covid-alert">
+                      In light of the update from the Government on the 23 March 2020, Safety Signs and Notices Ltd would like to reassure all of our customers that we are currently "Open for Business" and will continue to service your needs for as long as possible.
+                      We have put the following guidelines in place.
+                  <ul>
+                      <li>Home working for everyone possible</li>
+                      <li>Shift patterns for production and warehouse staff to minimise contact</li>
+                      <li>Social distancing for the delivery and collection of raw materials.</li>
+                  </ul>
+                  </p>
+                  <p class="covid-alert">
+                      More information about how we are dealing with the dynamic situation can be found on our <a href="https://www.safetysignsandnotices.co.uk/covid-19-status">COVID-19 status page</a>
+                  </p>
+                  </p>
+              </div>
+
+          </div>
+      </div>
+  </div>
+
   <header>
     <div class="container">
       <div class="row">
