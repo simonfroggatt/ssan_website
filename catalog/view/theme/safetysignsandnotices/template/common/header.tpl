@@ -124,7 +124,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                   <p class="covid-alert">
                       In light of the update from the Government on the 23 March 2020, Safety Signs and Notices Ltd would like to reassure all of our customers that we are currently "Open for Business" and will continue to service your needs for as long as possible.
                       We have put the following guidelines in place.
-                  <ul>
+                  <ul class="covid-alert">
                       <li>Home working for everyone possible</li>
                       <li>Shift patterns for production and warehouse staff to minimise contact</li>
                       <li>Social distancing for the delivery and collection of raw materials.</li>

@@ -1484,6 +1484,10 @@ font-size: 15px;
 	border-top: solid 4px #E50004;
 	border-bottom: solid 4px #E50004;
 	padding-bottom: 10px;
+    background-image: url("/image/covid-header.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .covid-header{
@@ -1493,5 +1497,9 @@ font-size: 15px;
 }
 
 .covid-alert{
+    color: black;
+}
 
+.covid-alert > ul > li{
+    color: black;
 }
