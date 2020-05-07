@@ -26,6 +26,7 @@
                 <dt>Size:<dt><dd id="product_size"></dd>
                 <dt>Orientation:<dt> <dd id="product_size_or"></dd>
                 <dt>Material:<dt> <dd id="product_material"></dd>
+                <div id="product_material-desc"></div>
               </dl>
           </div>
 
