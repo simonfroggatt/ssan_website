@@ -283,14 +283,27 @@ function updateProductDetails(fullupdate)
     $('#product_size').html(ssan_var_info.size_name);
     $('#product_size_or').html(ssan_var_info.size_orientation);
     $('#stock_days').html(makeNiceStockStatus(parseInt(ssan_var_info.stock_days)));
+
+
+    let lam_text = 'All our Non-Slip Vinyl Floor Graphics are printed and then over laminated with British Safety Standards Non-Slip Vinyl Laminate.<br>\n' +
+        'This protects the printed signs from damage and fading as the print is sandwiched between the non-slip laminate. Therefore withstanding heavy footfall and traffic from industrial vehicles.<br>\n' +
+        'These are not like the cheap Floor Graphics which are printed directly to a non-slip vinyl which you are accustomed to seeing in supermarkets, which are for short term promotional applications and not long term floor marking.<br>\n' +
+        'With Social Distancing Measures likely to be in place for the foreseeable future, buying cheap will mean replacing floor signs frequently.\n';
+    //SERIOUS HACK!!!!!
+    if((ssan_var_info.product_material_id == 8) || (ssan_var_info.product_material_id == 22) || (ssan_var_info.product_material_id == 126)|| (ssan_var_info.product_material_id == 127)|| (ssan_var_info.product_material_id == 128)|| (ssan_var_info.product_material_id == 129) || (ssan_var_info.product_material_id == 130)) {
+
+      $('#product_material-desc').html(lam_text);
+    }
+
+
   }
 
-  if($('#is_bespoke').val() == 1){
-    reDrawForSizeChange($('#posize').val())
-  }
-  else {
+ // if($('#is_bespoke').val() == 1){
+ //   reDrawForSizeChange($('#posize').val())
+ // }
+ // else {
     switchImage(ssan_var_info);
-  }
+  //}
 
 
 
