@@ -97,6 +97,14 @@ class ControllerExtensionFeedGoogleMerchant extends Controller {
 						}
 
 					}
+					elseif( ($materialID == 8) || ($materialID == 122) || ($materialID == 126) || ($materialID == 127) || ($materialID == 128) || ($materialID == 129) || ($materialID == 130) ) {  //self adhesive
+                        $strpos = stripos($cleanname, "sticker");
+                        if($strpos <= 0){
+                            //$cleanname = str_ireplace(" sign", '', $cleanname);
+                            $cleanname .= ' Sticker';
+                        }
+
+                    }
 					else{
 						$strpos = stripos($cleanname, "sign");
 						if($strpos <= 0){
