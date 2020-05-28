@@ -1481,10 +1481,9 @@ font-size: 15px;
 	background-repeat: repeat-x;*/
 	min-height: 20px;
 	padding-top: 10px;
-	border-top: solid 4px #E50004;
 	border-bottom: solid 4px #E50004;
-	padding-bottom: 10px;
-	font-size: 9px;
+
+
 
 }
 
@@ -1496,6 +1495,8 @@ font-size: 15px;
 
 .covid-alert{
     color: black;
+	font-size: 11px;
+	line-height: normal;
 }
 
 .covid-alert > ul > li{
