@@ -1479,15 +1479,12 @@ font-size: 15px;
 	background-color: #363636;
 	background-image: linear-gradient(to bottom, #444444, #222222);
 	background-repeat: repeat-x;*/
-	min-height: 40px;
+	min-height: 20px;
 	padding-top: 10px;
 	border-top: solid 4px #E50004;
 	border-bottom: solid 4px #E50004;
 	padding-bottom: 10px;
-    background-image: url("/image/covid-header.jpg");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+
 }
 
 .covid-header{
