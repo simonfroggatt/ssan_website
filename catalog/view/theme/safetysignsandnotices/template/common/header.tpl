@@ -110,21 +110,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
 
-  <div id="full-width-header-covid">
-      <div class="container">
-          <div class="col-sm-12 ">
-              <div class="row">
-                  <p class="covid-alert text-center">
-                      We currently operating within the guidelines set out by the government and are extremely busy. Orders are still being processed and we are doing our up most to ensure that all orders go out in a timely manner. Our current time frame for normal orders has gone up from 24 hours to 3 - 5 working days,
-                      with larger orders taking a few days more.<br>
-                      We understand that signage is currently a major requirement to allow businesses to get back to work and we will continue to do our very best to help you.
-                      If you need to contact us please email us at <a href="mailto:sales@safetysignsandnotices.co.uk">sales@safetysignsandnotices.co.uk</a>
-                  </p>
-                  </p>
-              </div>
-          </div>
-      </div>
-  </div>
+
 
   <header>
     <div class="container">
