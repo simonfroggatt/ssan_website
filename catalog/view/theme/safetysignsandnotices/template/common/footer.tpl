@@ -93,4 +93,9 @@
   <script type="text/javascript" src="catalog/view/javascript/lazy/jquery.lazy.min.js"></script>
     <script type="text/javascript" src="catalog/view/javascript/lazy/jquery.lazy.plugins.min.js"></script>
 
+
+<script src="catalog/view/javascript/svg_js/3.0.16/svg.js"></script>
+<script src="catalog/view/javascript/ssan/bespoke-sign/bespokesign.js"></script>
+
+
 </body></html>

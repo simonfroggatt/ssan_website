@@ -33,61 +33,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- End Google Tag Manager -->
 
 
-          <script src="catalog/view/javascript/jquery/jquery-3.3.1.min.js" type="text/javascript"></script>
-          <link href="catalog/view/javascript/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen" />
-          <script src="catalog/view/javascript/bootstrap/js/bootstrap.min.js"></script>
 
-          <script src="catalog/view/javascript/bootstrap-table/bootstrap-table.js"></script>
-          <link href="catalog/view/javascript/bootstrap-table/bootstrap-table.css" rel="stylesheet" type="text/css" />
-
-          <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />
-          <script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>
-          <script src="catalog/view/javascript/cookie/cookie_compliance.js"></script>
-
-          <script src="catalog/view/javascript/ssan/js.cookie.js" ></script>
-          <script src="catalog/view/javascript/ssan/bootbox.min.js" ></script>
-
-          <!-- scheme.org  -->
-          <script type="application/ld+json">{"@context": "http://schema.org","@type": "Organization","url": "http://www.safetysignsandnotics.co.uk","logo": "http://www.safetysignsandnotices.co.uk/image/safetysigns_logo.jpg","contactPoint":[{"@type": "ContactPoint","telephone": "+441157270172","contactType": "sales","areaServed": "GB","availableLanguage": "English"}]}</script>
-          <script type="application/ld+json">{"@context": "http://schema.org","@type": "WebSite","url": "https://www.safetysignsandnotices.co.uk/","potentialAction": {"@type": "SearchAction","target": "http://www.safetysignsandnotices.co.uk/index.php?route=product/search&search={search_term_string}","query-input": "required name=search_term_string"}}</script>
-
-
-
-          <script src="catalog/view/javascript/ssan/products.js?random=<?php echo filemtime('catalog/view/javascript/ssan/products.js');?>"></script>
-
-          <script src="catalog/view/javascript/bootstrap-table/extensions/filter-control/bootstrap-table-filter-control.js"></script>
-          <link href="catalog/view/javascript/bootstrap-table/extensions/filter-control/bootstrap-table-filter-control.css" rel="stylesheet" type="text/css">
-
-          <link href="catalog/view/javascript/bootstrap-toggle/bootstrap-toggle.min.css" rel="stylesheet">
-          <script src="catalog/view/javascript/bootstrap-toggle/bootstrap-toggle.min.js"></script>
-
-          <script src="catalog/view/javascript/ssan/jquery.number.min.js"></script>
-          <script src="catalog/view/javascript/ssan/livehelp.js"></script>
-
-
-
-
-         <script src="catalog/view/javascript/ssan/pca.js"></script>
-
-
-
-          <script src="catalog/view/javascript/typeahead/jquery.typeahead.js"></script>
-          <link href="catalog/view/javascript/typeahead/jquery.typeahead.css" rel="stylesheet" type="text/css">
-
-          <script src="catalog/view/javascript/jquery/rangeslider/rangeslider.js"></script>
-          <link href="catalog/view/javascript/jquery/rangeslider/rangeslider.css" rel="stylesheet" type="text/css">
-
-          <link href="catalog/view/javascript/payfont/css/paymentfont.min.css" rel="stylesheet" type="text/css">
-
-
-          <link href="catalog/view/javascript/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-          <link href="//fonts.googleapis.com/css?family=Open+Sans:400,400i,300,700" rel="stylesheet" type="text/css" />
-
-          <link href="catalog/view/javascript/featherlight/featherlight.min.css" rel="stylesheet" type="text/css">
-
-          <script src="catalog/view/javascript/snap/snap.svg.js"></script>
-
-          <script src="catalog/view/javascript/ssan/float-label.js"></script>
 
 
 

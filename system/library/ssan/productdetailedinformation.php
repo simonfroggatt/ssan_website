@@ -35,7 +35,7 @@ class ProductDetailedInformation
 
     public function GetProductSpecifications(): Array
     {
-        return $ths->arrayOfSpecifications;
+        return $this->arrayOfSpecifications;
     }
 
     public function SetProductID($productID): Int

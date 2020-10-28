@@ -8,12 +8,12 @@ class ModelExtensionFeedGoogleMerchantSsan extends Model {
 
     public function GetAllAvailableProducts()
     {
-        $sql = "SELECT DISTINCT " . SSAN_DB_PREFIX . "product_variants.product_id";
-        $sql .= " FROM " . DB_PREFIX . "product INNER JOIN " . SSAN_DB_PREFIX . "product_variants ON " . DB_PREFIX . "product.product_id = " . SSAN_DB_PREFIX . "product_variants.product_id";
-    	 $sql .= " INNER JOIN " . DB_PREFIX . "product_to_category ON " . DB_PREFIX . "product.product_id = " . DB_PREFIX . "product_to_category.product_id";
-    	 $sql .= " INNER JOIN " . DB_PREFIX . "category ON " . DB_PREFIX . "product_to_category.category_id = " . DB_PREFIX . "category.category_id";
-       $sql .= " WHERE " . DB_PREFIX . "category.`status` = 1 AND " . DB_PREFIX . "product.`status` = 1 AND " . DB_PREFIX . "product.include_google_merchant = 1";
-       $sql .= " ORDER BY " . SSAN_DB_PREFIX . "product_variants.id";
+
+        $sql = "SELECT DISTINCT " . DB_PREFIX . "product.product_id FROM " .
+                DB_PREFIX . "product JOIN " . SSAN_DB_PREFIX . "product_variants " .
+               "ON " . DB_PREFIX . "product.product_id=" . SSAN_DB_PREFIX . "product_variants.product_id " .
+               "WHERE " . DB_PREFIX . "product.`status`=1 AND " . SSAN_DB_PREFIX . "product_variants.gtin " .
+               "IS NOT NULL ORDER BY " . DB_PREFIX . "product.product_id ASC";
 
        $query = $this->db->query($sql);
        return $query->rows;

@@ -1,4 +1,4 @@
-<script src="catalog/view/javascript/svg/svg.js"></script>
+<!-- <script src="catalog/view/javascript/svg/svg.js"></script>
 <script src="catalog/view/javascript/svg/svg.filter.js"></script>
 <script src="catalog/view/javascript/svg/bespoke.js"></script>
 <script src="catalog/view/javascript/svg/bespoke.interface.js"></script>
@@ -6,6 +6,7 @@
 <script src="catalog/view/javascript/svg/bespoke.draw.js"></script>
 <script src="catalog/view/javascript/svg/svg.screenbbox.js"></script>
 <script src="catalog/view/javascript/colorpicker/js/bootstrap-colorpicker.min.js"></script>
+-->
 
 
 
@@ -24,7 +25,7 @@
 <script type="text/javascript">
 $(document).ready(function() {
 //  InitialiseBespoke();
-
+/*
   <?php if($bespokeid > 0) { ?>
     <?php if($productJSON != null) { ?>
       setPreloadedBespoke(<?php echo $productJSON; ?>)
@@ -38,7 +39,7 @@ $(document).ready(function() {
   <?php } else { ?>
       InitialiseBespoke();
   <?php } ?>
-
+*/
 
 });
 
@@ -125,9 +126,6 @@ $.ajax({
       }
 });
   });
-
-
-
 
 
 

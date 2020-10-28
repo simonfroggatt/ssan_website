@@ -525,6 +525,8 @@ class ControllerProductProduct extends Controller {
 			}
 
 
+            $data['prod_var_table'] = $this->load->controller('ssan/product_variant_table'); //SSAN
+
 			$this->load->model('ssan/product_variant_table'); //SSAN
 
 			$data['preselect_variant'] = isset($this->request->get['variantid']) ? $this->request->get['variantid'] : 0;

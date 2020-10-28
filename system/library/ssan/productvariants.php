@@ -10,7 +10,7 @@ namespace ssan;
 
 class ProductVariants
 {
-
+    private $resellerID;
     private $productVariants;
     private $numberOfVariants;
     private $productID;
@@ -19,9 +19,10 @@ class ProductVariants
     private $productMaterials;
     private $cheapestVariant;
 
-    public function __construct($db, $productID = null)
+    public function __construct($db, $productID = null, $resellerID = 0)
     {
         $this->db = $db;
+        $this->resellerID = $resellerID;
 
         if(!is_null($productID)) {
             $this->productID = $productID;
@@ -57,8 +58,6 @@ class ProductVariants
 
         $sql_sort = " ORDER BY variant_price ASC";
 
-        $returnArray = [];
-
         $results = $this->db->query($sql . $sql_where . $sql_sort,[$productID]);
 
         $this->numberOfVariants = $results->num_rows;
@@ -70,6 +69,18 @@ class ProductVariants
         else {
           $this->cheapestVariant = 0;
         }
+
+        if($this->resellerID > 0) {
+            foreach($this->productVariants as $key => $variantData) {
+                $reseller_vars = $this->getResellerVariantInfo($variantData['id'], $this->resellerID);
+                $this->productVariants[$key]['reseller_variant'] = $reseller_vars;
+                if(array_key_exists('price',$reseller_vars)){
+                    $this->productVariants[$key]['variant_price'] = $reseller_vars['price'];
+                }
+            }
+
+        }
+
       //  echo ($sql . $sql_where . $sql_sort);
         //need to do some checking in here to make sure we are getting infomation back
     }
@@ -153,7 +164,7 @@ class ProductVariants
 
    public function createSizeMaterialData()
   {
-      $sql = "SELECT DISTINCT ssan_product_sizes.id, 	ssan_product_sizes.size_name, 	ssan_product_sizes.size_code, 	ssan_product_material.id material_id, 	ssan_product_material.material_name, 	ssan_product_sizes.size_orientation, 	ssan_product_sizes.size_width, 	ssan_product_sizes.size_height, ssan_product_sizes.symbol_default_location";
+      $sql = "SELECT DISTINCT ssan_product_sizes.id, 	ssan_product_sizes.size_name, 	ssan_product_sizes.size_code, 	ssan_product_material.id material_id, 	ssan_product_material.material_name, 	ssan_product_sizes.size_orientation, 	ssan_product_sizes.size_width, 	ssan_product_sizes.size_height, ssan_product_sizes.symbol_default_location, ssan_product_material.material_desc, ssan_product_material.material_desc_full, ssan_product_material.image";
       $sql .= " FROM ssan_product_variants INNER JOIN ssan_size_material_comb ON ssan_product_variants.size_material_id = ssan_size_material_comb.id";
 	    $sql .= " INNER JOIN ssan_product_material ON ssan_size_material_comb.product_material_id = ssan_product_material.id";
 	    $sql .= " INNER JOIN ssan_product_sizes ON ssan_size_material_comb.product_size_id = ssan_product_sizes.id";
@@ -225,7 +236,7 @@ class ProductVariants
 
    private function loadVariantSizes()
    {
-      $sql = "SELECT DISTINCT ssan_product_sizes.id, ssan_product_sizes.size_name,  	ssan_product_sizes.size_code";
+      $sql = "SELECT DISTINCT ssan_product_sizes.id, ssan_product_sizes.size_name, ssan_product_sizes.size_code";
       $sql .= " FROM ssan_product_variants INNER JOIN ssan_size_material_comb ON ssan_product_variants.size_material_id = ssan_size_material_comb.id INNER JOIN ssan_product_sizes ON ssan_size_material_comb.product_size_id = ssan_product_sizes.id";
       $sql_where = " WHERE ssan_product_variants.product_id = ?";
 
@@ -238,7 +249,7 @@ class ProductVariants
    private function loadVariantMaterais()
    {
 
-     $sql = "SELECT DISTINCT ssan_product_material.material_name, ssan_product_material.id, ssan_product_material.`code`";
+     $sql = "SELECT DISTINCT ssan_product_material.material_name, ssan_product_material.id, ssan_product_material.`code`, ssan_product_material.material_desc, ssan_product_material.material_desc_full, ssan_product_material.image";
      $sql .= " FROM ssan_product_variants INNER JOIN ssan_size_material_comb ON ssan_product_variants.size_material_id = ssan_size_material_comb.id  INNER JOIN ssan_product_material ON ssan_size_material_comb.product_material_id = ssan_product_material.id";
      $sql_where = " WHERE ssan_product_variants.product_id = ?";
 
@@ -258,6 +269,85 @@ class ProductVariants
 
         return $singlePriceArray;
     }
+
+    private function getResellerVariantInfo($variantID, $resellerID)
+    {
+        $variant_reseller_info = [];
+
+        $reseller_desc = $this->getVariantResellerDescriptions($variantID, $resellerID);
+
+        if(sizeof($reseller_desc) > 0) {
+            foreach ($reseller_desc as $key => $data) {
+                if($data != null)
+                    $variant_reseller_info[$key] = $data;
+            }
+        }
+
+        $reseller_size_material_price = $this->getVariantResellerSizeMaterialComb($variantID, $resellerID);
+        if(sizeof($reseller_size_material_price) > 0){
+            $variant_reseller_info['price'] = $reseller_size_material_price['price'];
+        }
+
+        $reseller_price_overide = $this->getVariantResellerPriceOverride($variantID, $resellerID);
+        if(sizeof($reseller_price_overide) > 0){
+            $variant_reseller_info['price'] = $reseller_price_overide['variant_overide_price'];
+        }
+
+        return $variant_reseller_info;
+    }
+
+
+    private function getVariantResellerPriceOverride($variantID, $resellerID)
+    {
+         $sql = "SELECT ssan_reseller_product_variants.variant_code,ssan_reseller_product_variants.variant_overide_price,".
+         "ssan_reseller_product_variants.exclude_fpnp FROM ssan_reseller_product_variants WHERE ".
+         "ssan_reseller_product_variants.id=? AND ssan_reseller_product_variants.reseller_id=?";
+        
+        $results = $this->db->query($sql ,[$variantID,$resellerID]);
+        if($results->num_rows > 0)
+            return $results->rows[0];
+        else
+            return [];
+
+    }
+
+
+    private function getVariantResellerSizeMaterialComb($variantID, $resellerID)
+    {
+        $sql = "SELECT ssan_reseller_sm_combo_price.price FROM ".
+                "ssan_product_variants JOIN ssan_reseller_sm_combo_price ON ".
+                "ssan_product_variants.size_material_id=ssan_reseller_sm_combo_price.id ".
+                "WHERE ssan_product_variants.id=? AND ".
+                "ssan_reseller_sm_combo_price.reseller_id=?";
+        
+        $results = $this->db->query($sql ,[$variantID,$resellerID]);
+        if($results->num_rows > 0)
+            return $results->rows[0];
+        else
+            return [];
+    }
+
+
+    private function getVariantResellerDescriptions($variantID, $resellerID)
+    {
+        $sql = "SELECT ssan_product_variant_description.`name`,ssan_product_variant_description.description,".
+                "ssan_product_variant_description.tag,ssan_product_variant_description.meta_title,".
+                "ssan_product_variant_description.meta_description,ssan_product_variant_description.meta_keyword,".
+                "ssan_product_variant_description.long_description,ssan_product_variant_description.bullet_1,".
+                "ssan_product_variant_description.bullet_2,ssan_product_variant_description.bullet_3,".
+                "ssan_product_variant_description.bullet_4,ssan_product_variant_description.bullet_5 ".
+                "FROM ssan_product_variant_description WHERE ".
+                "ssan_product_variant_description.variant_id=? AND ssan_product_variant_description.reseller_id=?";
+
+        $results = $this->db->query($sql ,[$variantID,$resellerID]);
+        if($results->num_rows > 0)
+            return $results->rows[0];
+        else
+            return [];
+    }
+
+
+
 
 
 
