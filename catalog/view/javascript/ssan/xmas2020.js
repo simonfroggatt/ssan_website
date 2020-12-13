@@ -8,7 +8,7 @@ $(document).ready(function() {
 function showMessage(){
   var shouldShow;
   shouldShow = checkToShowXmas();
-  if(shouldShow){
+  if(shouldShow === true){
     $.featherlight("/image/xmas-message-2020.png", configuration);
     Cookies.set('xmasMessage2021', false);
   }
