@@ -118,11 +118,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                       We are currently extremely busy and as such order fulfilment times are longer than usual. Our current dispatch time is 3 - 5 working days. We understand that signage is currently a major requirement to allow businesses to get back to work and we will continue to do our very best to help you.<br>
                       If you need to contact us please email us at <a href="mailto:sales@safetysignsandnotices.co.uk">sales@safetysignsandnotices.co.uk</a>
                   </p>
-                  <p class="covid-alert text-center">
-                      <strong>XMAS CLOSING 2020</strong><br>
-                      We will be closed from Friday the 18th December until Monday 4th January. Last date for orders to go out before xmas will be Wednesday the 16th December.
-                      <br>We would like to thank all our customers for helping us navigate what has been an "interesting" year for all of us and lets hope 2021 will be a better year.
-                  </p>
+
               </div>
           </div>
       </div>
