@@ -45,8 +45,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 
 
-         <!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script> -->
-      <!--      <script src="catalog/view/javascript/jquery/jquery-3.3.1.js"></script> -->
+
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
           <script src="catalog/view/javascript/typeahead/jquery.typeahead.js"></script>
