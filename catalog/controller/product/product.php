@@ -248,6 +248,8 @@ class ControllerProductProduct extends Controller {
 			$data['text_payment_recurring'] = $this->language->get('text_payment_recurring');
 			$data['text_loading'] = $this->language->get('text_loading');
 
+            $data['text_also_sold'] = $this->language->get('text_also_sold');
+
 			$data['entry_qty'] = $this->language->get('entry_qty');
 			$data['entry_name'] = $this->language->get('entry_name');
 			$data['entry_review'] = $this->language->get('entry_review');
@@ -462,7 +464,58 @@ class ControllerProductProduct extends Controller {
 				);
 			}
 
-			$data['tags'] = array();
+            //SSAN - get also sold products - change to ASYNC is looks worthwhile
+            $data['also_sold_products'] = null;
+            $also_sold  = $this->model_catalog_product->GetAlsoSoldProducts($this->request->get['product_id']);
+            foreach ($also_sold as $result) {
+                if ($result['image']) {
+                    $image = $this->model_tool_image->resize($result['image'], $this->config->get($this->config->get('config_theme') . '_image_related_width'), $this->config->get($this->config->get('config_theme') . '_image_related_height'));
+                } else {
+                    $image = $this->model_tool_image->resize('placeholder.png', $this->config->get($this->config->get('config_theme') . '_image_related_width'), $this->config->get($this->config->get('config_theme') . '_image_related_height'));
+                }
+
+                if ($this->customer->isLogged() || !$this->config->get('config_customer_price')) {
+                    $price = $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
+                } else {
+                    $price = false;
+                }
+
+                if ((float)$result['special']) {
+                    $special = $this->currency->format($this->tax->calculate($result['special'], $result['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
+                } else {
+                    $special = false;
+                }
+
+                if ($this->config->get('config_tax')) {
+                    $tax = $this->currency->format((float)$result['special'] ? $result['special'] : $result['price'], $this->session->data['currency']);
+                } else {
+                    $tax = false;
+                }
+
+                if ($this->config->get('config_review_status')) {
+                    $rating = (int)$result['rating'];
+                } else {
+                    $rating = false;
+                }
+
+                $data['also_sold_products'][] = array(
+                    'product_id'  => $result['product_id'],
+                    'thumb'       => $image,
+                    'name'        => $result['name'],
+                    'description' => utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get($this->config->get('config_theme') . '_product_description_length')) . '..',
+                    'price'       => $price,
+                    'special'     => $special,
+                    'tax'         => $tax,
+                    'minimum'     => $result['minimum'] > 0 ? $result['minimum'] : 1,
+                    'rating'      => $rating,
+                    'href'        => $this->url->link('product/product', 'product_id=' . $result['product_id'])
+                );
+            }
+
+
+
+
+            $data['tags'] = array();
 
 			if ($product_info['tag']) {
 				$tags = explode(',', $product_info['tag']);
@@ -523,6 +576,8 @@ class ControllerProductProduct extends Controller {
 				$data['prod_var_dropdown'] = $this->load->controller('ssan/product_variant_dropdowns'); //SSAN}
 				$data['prod_var_table'] = $this->load->controller('ssan/product_variant_table'); //SSAN
 			}
+
+            $data['product_material_spec'] = $this->load->controller('ssan/product_material_table'); //SSAN
 
 
 			$this->load->model('ssan/product_variant_table'); //SSAN
@@ -755,4 +810,6 @@ class ControllerProductProduct extends Controller {
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
 	}
+
+
 }
