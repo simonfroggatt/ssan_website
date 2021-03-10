@@ -559,5 +559,26 @@ class ModelCatalogProduct extends Model {
 			$query = $this->db->query("SELECT tax_class_id FROM " . DB_PREFIX . "product WHERE product_id = '" . (int)$product_id . "'");
 			return $query->row['tax_class_id'];
 
-	  }
+    }
+
+    public function GetAlsoSoldProducts($product_id){
+	    $sql = "SELECT " . DB_PREFIX . "order_product.product_id, COUNT( " . DB_PREFIX . "order_product.order_id ) AS num_sold ".
+            "FROM " . DB_PREFIX . "order_product INNER JOIN " . DB_PREFIX . "product_description ON " . DB_PREFIX . "order_product.product_id = " . DB_PREFIX . "product_description.product_id ".
+            "WHERE " . DB_PREFIX . "order_product.order_id IN (".
+            "( SELECT " . DB_PREFIX . "order.order_id ".
+                " FROM " . DB_PREFIX . "order INNER JOIN " . DB_PREFIX . "order_product ON " . DB_PREFIX . "order.order_id = " . DB_PREFIX . "order_product.order_id ".
+                " WHERE " . DB_PREFIX . "order_product.product_id = ".$product_id." )) GROUP BY ". DB_PREFIX . "order_product.product_id ORDER BY num_sold DESC LIMIT 1,8";
+
+        $product_data = [];
+        $query = $this->db->query($sql);
+        foreach ($query->rows as $result) {
+            if($result['num_sold'] < 5)  //we only want items that have sold more than 5 times
+                break;
+            $product_data[$result['product_id']] = $this->getProduct($result['product_id']);
+        }
+
+        return $product_data;
+	    
+    }
+
 }

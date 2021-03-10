@@ -15,6 +15,8 @@ class ProductDetailedInformation
     private $productID;
     private $arrayOfMaterials;
     private $arrayOfSpecifications;
+    private $arrayOfSymbols;
+
     private $isBespoke = false;
 
     public function __construct($db, $productID = null)
@@ -35,7 +37,7 @@ class ProductDetailedInformation
 
     public function GetProductSpecifications(): Array
     {
-        return $ths->arrayOfSpecifications;
+        return $this->arrayOfSpecifications;
     }
 
     public function SetProductID($productID): Int
@@ -57,10 +59,10 @@ class ProductDetailedInformation
 
     private function LoadAllMaterials()
     {
-        $sql = "SELECT DISTINCT ssan_product_material.*
-                FROM ssan_product_variants INNER JOIN ssan_size_material_comb ON ssan_product_variants.size_material_id = ssan_size_material_comb.id
-	            INNER JOIN ssan_product_material ON ssan_size_material_comb.product_material_id = ssan_product_material.id
-                WHERE ssan_product_variants.product_id = ?";
+        $sql = "SELECT DISTINCT ssan_product_material.* FROM ssan_product_variants 
+                INNER JOIN ssan_size_material_comb ON ssan_product_variants.size_material_id=ssan_size_material_comb.id 
+                INNER JOIN ssan_product_material ON ssan_size_material_comb.product_material_id=ssan_product_material.id 
+                WHERE ssan_product_variants.product_id= ?";
 
         $params = array($this->productID);
         $results = $this->db->query($sql,$params);
@@ -84,6 +86,56 @@ class ProductDetailedInformation
         }
       }
 
+    /**
+     * @param $product_id
+     * @desc - used to get the distinct list of materials along with their details and images of the material availble for this sign.
+     */
+    private function GetProductMaterialDetails(){
+        $sql = "SELECT DISTINCT ssan_product_material.* FROM ssan_product_variants 
+                INNER JOIN ssan_size_material_comb ON ssan_product_variants.size_material_id=ssan_size_material_comb.id 
+                INNER JOIN ssan_product_material ON ssan_size_material_comb.product_material_id=ssan_product_material.id 
+                WHERE ssan_product_variants.product_id= ?";
+
+        $params = array($this->productID);
+        $results = $this->db->query($sql,$params);
+
+        return $results->rows;
+    }
+
+    /**
+     * @param $product_id
+     * @desc - given a productID we get a list of all the symbols along with their specifiacions.
+     * Also get related symbols to this symbol - according to ISO and us
+     */
+    private function GetProductSymbolDetails(){
+
+        $sql = "SELECT ssan_symbols.*  FROM ssan_symbols
+	            INNER JOIN ssan_product_symbols ON ssan_symbols.id = ssan_product_symbols.symbol_id 
+                WHERE ssan_product_symbols.product_id = ?";
+
+        $params = array($this->productID);
+        $results = $this->db->query($sql,$params);
+
+    }
+
+    /**
+     * @param $symbolID
+     * @returns A list of productID's that have the same symbol their signs as the symbolID
+     */
+    private function GetRelatedProductsBySymbolID($symbolID){
+
+    }
+
+    /**
+     * @returns - A list of productID's that customers also bought when they bought this product
+     */
+    private function GetCustomerAlsoBought(){
+
+    }
+
+    private function getProductSpec(){
+
+    }
 
 
 

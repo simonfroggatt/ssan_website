@@ -906,6 +906,13 @@ h2.price {
 		font-size: 1em;
 }
 
+.table tbody>tr>td.product-material{
+	vertical-align: middle;
+	color: black;
+	font-size: 1em;
+	text-align: left;
+}
+
 header {
 	padding-top: 10px;
 	background-color: #303030;

@@ -1,8 +1,7 @@
 <!-- start of related products -->
-<?php if ($products) { ?>
-
-<div id="related-slideshow" class="owl-carousel">
-  <?php foreach ($products as $product) { ?>
+<?php if ($also_sold_products) { ?>
+<div id="also-sold-slideshow" class="owl-carousel">
+  <?php foreach ($also_sold_products as $product) { ?>
     <div  class="product-thumb">
       <div class="image"><a href="<?php echo $product['href']; ?>"><img src="<?php echo $product['thumb']; ?>" alt="<?php echo $product['name']; ?>" title="<?php echo $product['name']; ?>" class="img-responsive" /></a></div>
       
@@ -16,7 +15,7 @@
 
 <script type="text/javascript"><!--
 $(document).ready(function(){
-  $('#related-slideshow').owlCarousel({
+  $('#also-sold-slideshow').owlCarousel({
   	items: <?php echo $product_count; ?>,
     nav: true,
     loop: false,
