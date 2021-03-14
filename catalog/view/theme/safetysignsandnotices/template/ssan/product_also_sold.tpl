@@ -9,7 +9,7 @@
 
   <?php } ?>
 
-<?php $product_count = (sizeof($products) <= 6) ? sizeof($products): 6; ?>
+<?php $product_count = (sizeof($also_sold_products) <= 6) ? sizeof($also_sold_products): 6; ?>
 
 </div>
 

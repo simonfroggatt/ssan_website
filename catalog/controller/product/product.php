@@ -460,12 +460,12 @@ class ControllerProductProduct extends Controller {
 					'tax'         => $tax,
 					'minimum'     => $result['minimum'] > 0 ? $result['minimum'] : 1,
 					'rating'      => $rating,
-					'href'        => $this->url->link('product/product', 'product_id=' . $result['product_id'])
+					'href'        => $this->url->link('product/product', 'product_id=' . $result['product_id'].'&selfref=related')
 				);
 			}
 
             //SSAN - get also sold products - change to ASYNC is looks worthwhile
-            $data['also_sold_products'] = null;
+    /*        $data['also_sold_products'] = null;
             $also_sold  = $this->model_catalog_product->GetAlsoSoldProducts($this->request->get['product_id']);
             foreach ($also_sold as $result) {
                 if ($result['image']) {
@@ -508,12 +508,12 @@ class ControllerProductProduct extends Controller {
                     'tax'         => $tax,
                     'minimum'     => $result['minimum'] > 0 ? $result['minimum'] : 1,
                     'rating'      => $rating,
-                    'href'        => $this->url->link('product/product', 'product_id=' . $result['product_id'])
+                    'href'        => $this->url->link('product/product', 'product_id=' . $result['product_id'].'&selfref=also')
                 );
             }
 
 
-
+*/
 
             $data['tags'] = array();
 

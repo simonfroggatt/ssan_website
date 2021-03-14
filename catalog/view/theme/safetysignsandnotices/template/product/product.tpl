@@ -32,16 +32,15 @@
         <div class="col-sm-12">
           <ul class="nav nav-tabs">
             <li class="active"><a href="#tab-related-products" data-toggle="tab"><i class="fa fa-link"> Related Products</i></a></li>
-            <?php if($also_sold_products) { ?>
             <li><a href="#tab-also-sold" data-toggle="tab"><i class="fa fa-cart-arrow-down"> Customers Also Bought</i></a></li>
-            <?php } ?>
           </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="tab-related-products">
                 <?php require("catalog/view/theme/safetysignsandnotices/template/product/product_related.tpl"); ?>
               </div>
               <div class="tab-pane" id="tab-also-sold">
-                <?php require("catalog/view/theme/safetysignsandnotices/template/product/product_also_sold.tpl"); ?>
+              <h2>Please wait whilst we find other great selling products</h2>
+             <!--   <?php /* require("catalog/view/theme/safetysignsandnotices/template/product/product_also_sold.tpl"); */ ?>  -->
               </div>
             </div>
 
@@ -59,9 +58,9 @@
 
           <!--   <li><a href="#tab-sign-specs" data-toggle="tab"><i class="fa fa-list-ul"> Specifications</i></a></li>
             <li><a href="#tab-material-info" data-toggle="tab"><i class="fa fa-flask"> Material Information</i></a></li> -->
-            <!--
+
             <li><a href="#tab-similar-signs" data-toggle="tab"><i class="fa fa-picture-o "> Similar Signs</i></a></li>
--->
+
             <?php if ($attribute_groups) { ?>
             <li><a href="#tab-specification" data-toggle="tab"><?php echo $tab_attribute; ?></a></li>
             <?php } ?>
@@ -73,7 +72,7 @@
             <div class="tab-pane active" id="tab-material-sizes"><?php echo $prod_var_table; ?></div>
             <div class="tab-pane" id="tab-description"><?php echo $long_description; ?></div>
             <div class="tab-pane" id="tab-sign-specs">Specs in here</div>
-        <!--    <div class="tab-pane" id="tab-material-info"><?php echo $product_material_spec; ?></div> -->
+        <!--    <div class="tab-pane" id="tab-material-info"><?php /*echo $product_material_spec;*/ ?></div> -->
             <div class="tab-pane" id="tab-similar-signs">Similar signs by image</div>
             <?php if ($attribute_groups) { ?>
             <div class="tab-pane" id="tab-specification">
@@ -305,6 +304,14 @@ $(document).ready(function() {
 			enabled:true
 		}
 	});
+
+  $.get("/index.php?route=ssan/product_customer_also_bought&product_id=<?php echo $product_id; ?>" )
+          .done(function( data ) {
+            targ = $('#tab-also-sold');
+            $(targ).html(data);
+       //     alert( "Data Loaded: " + data );
+
+          });
 
 <?php if($is_bespoke == 1) { ?>
     $('#posize').trigger('change');
