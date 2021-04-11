@@ -31,11 +31,7 @@
     <button type="button" id="button-cart-dropdown" data-loading-text="loading..." class="btn btn-add-cart btn-lg btn-block">Add to Cart</button>
   </div>
 </div>
-<div class="row MiB-row">
-    <div class="col-xs-12">
-        <img src="image/3rdpartylogo/MiB_Logo_Horizontal_Colour.svg" alt="Made in Britain Horizontal logo">
-    </div>
-</div>
+
 
 <script>
   var prod_variants = <?php echo json_encode($variant_size_materials); ?>;

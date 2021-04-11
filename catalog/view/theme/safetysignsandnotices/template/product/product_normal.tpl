@@ -149,6 +149,11 @@
           <?php } ?>
           <?php } ?>
         </div>
+            <div class="row MiB-row">
+              <div class="col-xs-12">
+                <img src="image/3rdpartylogo/MiB_Logo_Horizontal_Colour.svg" alt="Made in Britain Horizontal logo">
+              </div>
+            </div>
         <!-- end product block -->
          </div>
        <!-- end of options drop down -->
