@@ -1509,3 +1509,9 @@ font-size: 15px;
 .covid-alert > ul > li{
     color: black;
 }
+
+.MiB-row {
+	background-color: white;
+	text-align: center;
+	vertical-align: center;
+}

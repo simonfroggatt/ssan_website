@@ -27,12 +27,12 @@
           <li><a href="<?php echo $order; ?>"><?php echo $text_order; ?></a></li>
         </ul>
       </div>
-      <div class="col-sm-2">
+      <div class="col-sm-1">
         <ul class="list-unstyled">
-
           <li><script type="text/javascript" src="https://sealserver.trustwave.com/seal.js?code=e0885ece86954c40b85381c8a8c874b6"></script></li>
         </ul>
       </div>
+
       <div class="col-sm-4">
 
         <ul class="list-inline payment-methods text-center payment-methods-o payment-methods-1_5">
@@ -46,6 +46,11 @@
         <ul class="list-inline payment-methods text-center payment-methods-o payment-methods-1_5">
           <li><img src="/image/3rdpartylogo/fsb.svg" alt="FSB logo"> </li>
           <li><img src="/image/3rdpartylogo/comodo-security.svg" height="50" alt="comodo logo"></li>
+        </ul>
+      </div>
+      <div class="col-sm-1">
+        <ul class="list-inline payment-methods text-center payment-methods-o payment-methods-1_5">
+          <li><img src="/image/3rdpartylogo/MiB_Logo_Vertical_Colour.svg"></li>
         </ul>
       </div>
 
