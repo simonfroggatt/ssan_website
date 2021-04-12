@@ -50,7 +50,7 @@
       </div>
       <div class="col-sm-1">
         <ul class="list-inline payment-methods text-center payment-methods-o payment-methods-1_5">
-          <li><img src="/image/3rdpartylogo/MiB_Logo_Vertical_Colour.svg"></li>
+          <li><img src="/image/3rdpartylogo/MiB_Logo_Vertical_b_and_w.svg"></li>
         </ul>
       </div>
 
