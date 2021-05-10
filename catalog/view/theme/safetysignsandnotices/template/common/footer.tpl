@@ -98,4 +98,19 @@
   <script type="text/javascript" src="catalog/view/javascript/lazy/jquery.lazy.min.js"></script>
     <script type="text/javascript" src="catalog/view/javascript/lazy/jquery.lazy.plugins.min.js"></script>
 
+
+<!-- UKFast's 100% Carbon Neutral Logo Accreditation -->
+<script type='text/javascript'>
+  (function() {
+    function ukfast_cnh_async_load(){
+      var s = document.createElement('script');
+      s.type = 'text/javascript';
+      s.async = true;
+      s.src = 'https://my.ukfast.co.uk/carbon-neutral-hosting/badge_of_honour.js?key=1c5utaf4t4i';
+      document.body.appendChild(s);
+    }
+    if (window.attachEvent) { window.attachEvent('onload', ukfast_cnh_async_load); } else { window.addEventListener('load', ukfast_cnh_async_load, false); }
+  })();
+</script>
+
 </body></html>
