@@ -21,7 +21,7 @@
 <?php } ?>
 <?php } ?>
 <p><strong><?php echo $text_comments; ?></strong></p>
-Paypal here
+
 <div id="smart-button-container">
   <div style="text-align: center;">
     <div id="paypal-button-container"></div>
