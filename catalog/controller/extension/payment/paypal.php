@@ -539,6 +539,7 @@ class ControllerExtensionPaymentPayPal extends Controller {
 			
 			if (!$this->error) {				
 				if ($transaction_method == 'authorize') {
+                    $payment_status_id = true;
 					$this->model_extension_payment_paypal->log($result, 'Authorize Order');
 					
 					if (isset($result['purchase_units'][0]['payments']['authorizations'][0]['status']) && isset($result['purchase_units'][0]['payments']['authorizations'][0]['seller_protection']['status'])) {
@@ -575,7 +576,7 @@ class ControllerExtensionPaymentPayPal extends Controller {
 						if (($authorization_status == 'CREATED') || ($authorization_status == 'DENIED') || ($authorization_status == 'PENDING')) {
 							$message = sprintf($this->language->get('text_order_message'), $seller_protection_status);
 				
-							$this->model_checkout_order->addOrderHistory($this->session->data['order_id'], $order_status_id, $message);
+							$this->model_checkout_order->addOrderHistory($this->session->data['order_id'], $order_status_id, $message, false,false,$payment_status_id);
 						}
 						
 						if (($authorization_status == 'CREATED') || ($authorization_status == 'PARTIALLY_CAPTURED') || ($authorization_status == 'PARTIALLY_CREATED') || ($authorization_status == 'VOIDED') || ($authorization_status == 'PENDING')) {
@@ -710,6 +711,7 @@ class ControllerExtensionPaymentPayPal extends Controller {
 			
 				if ($webhook_event['event_type'] == 'PAYMENT.CAPTURE.COMPLETED') {
 					$order_status_id = $setting['order_status']['completed']['id'];
+                    $payment_status_id = true;
 				}
 		
 				if ($webhook_event['event_type'] == 'PAYMENT.CAPTURE.DENIED') {
@@ -735,7 +737,7 @@ class ControllerExtensionPaymentPayPal extends Controller {
 				if ($order_status_id) {
 					$this->load->model('checkout/order');
 
-					$this->model_checkout_order->addOrderHistory($order_id, $order_status_id, '', true);
+					$this->model_checkout_order->addOrderHistory($order_id, $order_status_id, '', true, false,$payment_status_id);
 				}
 			}
 		}
