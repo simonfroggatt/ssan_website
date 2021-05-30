@@ -10,7 +10,7 @@ class ControllerExtensionPaymentPayPal extends Controller {
 			ini_set('serialize_precision', 14);
 		}
 	}
-	
+	//as
 	public function index() {
 		if ($this->config->get('paypal_client_id') && $this->config->get('paypal_secret')) {
 			$this->load->language('extension/payment/paypal');
