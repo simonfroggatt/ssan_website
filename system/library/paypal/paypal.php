@@ -4,10 +4,10 @@ class PayPal {
 		'sandbox' => 'https://api.sandbox.paypal.com',
 		'production' => 'https://api.paypal.com'
 	);
-	private $environment = 'production';
+	private $environment = 'sandbox';
 	private $partner_id = '';
-	private $client_id = 'AW6tVFu8OEK_opLQMmRTa7PILku4KQAZ83pZjUBjcjfQ8ZtpZlLKLsJcil_h6cIpIpG-UM7fRKQ8qFTK';
-	private $secret = 'EOib7FLKSmJ5x_U4k9zHU2bcGASbxRiLUThha-eyRa5UnwOvDop6wpqgd35TLwZ0Wz_kjixoxqCPQDXR';
+	private $client_id = 'AamzHbIgfZp2aYu-sVKO2Prl_hoN2h4W5lib72XYYNKPDGYLo9KfK4MjulC7bWlwnALMDQc0j8COtsT1';
+	private $secret = 'EEBPWnQ8iFcsgAan6xbTIpljueaS3yeU-ZO7kgDEasi2uYK7y_QUjZxxaw6wzwc0R5rERqsOC2AeSQEF';
 	private $access_token = '';
 	private $errors = array();
 	private $last_response = array();
