@@ -539,7 +539,7 @@ class ControllerExtensionPaymentPayPal extends Controller {
 			
 			if (!$this->error) {				
 				if ($transaction_method == 'authorize') {
-                    $payment_status_id = true;
+
 					$this->model_extension_payment_paypal->log($result, 'Authorize Order');
 					
 					if (isset($result['purchase_units'][0]['payments']['authorizations'][0]['status']) && isset($result['purchase_units'][0]['payments']['authorizations'][0]['seller_protection']['status'])) {
@@ -553,6 +553,7 @@ class ControllerExtensionPaymentPayPal extends Controller {
 						
 						if ($authorization_status == 'CREATED') {
 							$order_status_id = $setting['order_status']['pending']['id'];
+                            $payment_status_id = true;
 						}
 
 						if ($authorization_status == 'CAPTURED') {
@@ -585,7 +586,7 @@ class ControllerExtensionPaymentPayPal extends Controller {
 					}
 				} else {
 					$this->model_extension_payment_paypal->log($result, 'Capture Order');
-					
+
 					if (isset($result['purchase_units'][0]['payments']['captures'][0]['status']) && isset($result['purchase_units'][0]['payments']['captures'][0]['seller_protection']['status'])) {
 						$capture_status = $result['purchase_units'][0]['payments']['captures'][0]['status'];
 						$seller_protection_status = $result['purchase_units'][0]['payments']['captures'][0]['seller_protection']['status'];
@@ -597,6 +598,7 @@ class ControllerExtensionPaymentPayPal extends Controller {
 						
 						if ($capture_status == 'COMPLETED') {
 							$order_status_id = $setting['order_status']['completed']['id'];
+                            $payment_status_id = true;
 						}
 						
 						if ($capture_status == 'DECLINED') {
@@ -616,7 +618,7 @@ class ControllerExtensionPaymentPayPal extends Controller {
 						if (($capture_status == 'COMPLETED') || ($capture_status == 'DECLINED') || ($capture_status == 'PENDING')) {
 							$message = sprintf($this->language->get('text_order_message'), $seller_protection_status);
 				
-							$this->model_checkout_order->addOrderHistory($this->session->data['order_id'], $order_status_id, $message);
+							$this->model_checkout_order->addOrderHistory($this->session->data['order_id'], $order_status_id, $message,false,false,$payment_status_id);
 						}
 						
 						if (($capture_status == 'COMPLETED') || ($capture_status == 'PARTIALLY_REFUNDED') || ($capture_status == 'REFUNDED') || ($capture_status == 'PENDING')) {
@@ -635,6 +637,8 @@ class ControllerExtensionPaymentPayPal extends Controller {
 	
 	public function webhook() {				
 		$this->load->model('extension/payment/paypal');
+
+        $payment_status_id = false;
 				
 		$webhook_info = json_decode(html_entity_decode(file_get_contents('php://input')), true);
 		
@@ -737,7 +741,7 @@ class ControllerExtensionPaymentPayPal extends Controller {
 				if ($order_status_id) {
 					$this->load->model('checkout/order');
 
-					$this->model_checkout_order->addOrderHistory($order_id, $order_status_id, '', true, false,$payment_status_id);
+					$this->model_checkout_order->addOrderHistory($order_id, $order_status_id, '', true, false, $payment_status_id);
 				}
 			}
 		}
