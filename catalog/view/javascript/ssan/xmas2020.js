@@ -18,7 +18,7 @@ function showMessage(){
 function checkToShowXmas() {
   var xmasStatus;
 
-  xmasStatus = Cookies.get('xmasMessage2021', { secure: true });
+  xmasStatus = Cookies.get('xmasMessage2021');
 
   if (typeof xmasStatus == 'undefined')
   {
