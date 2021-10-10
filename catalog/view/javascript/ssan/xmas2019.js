@@ -10,7 +10,7 @@ function showMessage(){
   shouldShow = checkToShowXmas();
   if(shouldShow == true){
     $.featherlight("https://www.safetysignsandnotices.co.uk/image/xmas-message-2019.png", configuration);
-    Cookies.set('xmasMessage2020', false);
+    Cookies.set('xmasMessage2020', false, { secure: true });
   }
 
 }
@@ -22,7 +22,7 @@ function checkToShowXmas() {
 
   if (typeof xmasStatus == 'undefined')
   {
-      Cookies.set('xmasMessage2020', true);
+      Cookies.set('xmasMessage2020', true, { secure: true });
       xmasStatus = true;
   }
 

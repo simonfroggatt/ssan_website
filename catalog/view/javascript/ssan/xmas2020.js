@@ -10,7 +10,7 @@ function showMessage(){
   shouldShow = checkToShowXmas();
   if(shouldShow === true){
     $.featherlight("https://www.safetysignsandnotices.co.uk/image/xmas-message-2020.png", configuration);
-    Cookies.set('xmasMessage2021', false);
+    Cookies.set('xmasMessage2021', false, { secure: true });
   }
 
 }
@@ -18,11 +18,11 @@ function showMessage(){
 function checkToShowXmas() {
   var xmasStatus;
 
-  xmasStatus = Cookies.get('xmasMessage2021');
+  xmasStatus = Cookies.get('xmasMessage2021', { secure: true });
 
   if (typeof xmasStatus == 'undefined')
   {
-      Cookies.set('xmasMessage2021', true);
+      Cookies.set('xmasMessage2021', true, { secure: true });
       xmasStatus = true;
   }
 

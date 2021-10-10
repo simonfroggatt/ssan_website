@@ -161,7 +161,7 @@ function initToggle()
   var currentVatStatus = Cookies.get('vatstatus');
   if (typeof currentVatStatus == 'undefined')
   {
-      Cookies.set('vatstatus', 0);
+      Cookies.set('vatstatus', 0, { secure: true });
       currentVatStatus = 0;
   }
 
@@ -183,14 +183,14 @@ $toggleVat.change(function() {
       if($(this).prop('checked'))
         {
           $('#vat-status-text').html('All prices <strong>include</strong> VAT at the current rate');
-          Cookies.set('vatstatus', 1);
+          Cookies.set('vatstatus', 1, { secure: true });
           changePricesReVAT(0);
           updateProductDetails(false);
         //  $toggleVatTop.bootstrapToggle('on');
         }
         else {
           $('#vat-status-text').html('All prices <strong>exclude</strong> VAT at the current rate');
-          Cookies.set('vatstatus', 0);
+          Cookies.set('vatstatus', 0, { secure: true });
           changePricesReVAT(1);
           updateProductDetails(false);
         //  $toggleVatTop.bootstrapToggle('off');
