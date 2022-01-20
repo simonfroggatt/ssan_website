@@ -19,6 +19,15 @@ class ModelExtensionShippingFree extends Model {
 
 		$method_data = array();
 
+		$exl_free = false;
+
+        foreach ($this->cart->getProducts() as $product) {
+            if($this->GetFreeShipping($product['product_variant_id']) == 1){
+                $exl_free = true;
+                break;
+            }
+        }
+
 		if ($status) {
 			$quote_data = array();
 
@@ -33,6 +42,7 @@ class ModelExtensionShippingFree extends Model {
 
 			$method_data = array(
 				'code'       => 'free',
+				'exl_free'  => $exl_free,
 				'title'      => $this->language->get('text_title'),
 				'quote'      => $quote_data,
 				'sort_order' => $this->config->get('free_sort_order'),
@@ -42,4 +52,10 @@ class ModelExtensionShippingFree extends Model {
 
 		return $method_data;
 	}
+
+    private function GetFreeShipping($prod_variant_id){
+        $sql = "SELECT exclude_fpnp FROM ".SSAN_DB_PREFIX ."product_variants WHERE id='" . $prod_variant_id . "'";
+        $query = $this->db->query($sql);
+        return $query->row['exclude_fpnp'];
+    }
 }

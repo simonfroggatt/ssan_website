@@ -24,9 +24,12 @@ class ControllerCheckoutShippingMethod extends Controller {
 							'sort_order' => $quote['sort_order'],
 							'error'      => $quote['error'],
 						);
-						if($result['code'] == 'free'){
-							$method_data = array_slice($method_data, -1);
-							break;
+						if( $result['code'] == 'free'){
+						    if($quote['exl_free']) {
+                               // $method_data = array_slice($method_data, -1);
+                                unset($method_data['free']);
+                                break;
+                            }
 						}
 					}
 				}
