@@ -116,10 +116,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           <div class="col-sm-12 ">
               <div class="row">
                   <p class="covid-alert text-center">
-                      We are currently extremely busy and as such order fulfilment times are longer than usual. Our current dispatch time is 3 - 5 working days. We understand that signage is currently a major requirement to allow businesses to get back to work and we will continue to do our very best to help you.<br>
+                      <b>Please note</b><br>We currently undergoing a stock take and moving to a new larger purpose built property.<br>
+                      All orders will be processed as and when we can over the next couple of days. Feel free to continue to order online and we will back up and running
+                      by Monday the 31st of January. Thank you for understanding...
                       If you need to contact us please email us at <a href="mailto:sales@safetysignsandnotices.co.uk">sales@safetysignsandnotices.co.uk</a>
                   </p>
-
               </div>
           </div>
       </div>

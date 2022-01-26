@@ -25,6 +25,7 @@
         <ul class="list-unstyled">
           <li><a href="<?php echo $account; ?>"><?php echo $text_account; ?></a></li>
           <li><a href="<?php echo $order; ?>"><?php echo $text_order; ?></a></li>
+          <li><a href="index.php?route=staff/home">Staff</a></li>
         </ul>
       </div>
       <div class="col-sm-1">
@@ -88,7 +89,7 @@
 
 
 <script src="catalog/view/javascript/featherlight/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="catalog/view/javascript/ssan/xmas2020.js"></script>
+<script src="catalog/view/javascript/ssan/xmas2021.js"></script>
 
 <script src="catalog/view/javascript/jquery/rangeslider/rangeslider.js"></script>
    <script src="catalog/view/javascript/ssan/float-label.js"></script>
@@ -97,6 +98,8 @@
 
   <script type="text/javascript" src="catalog/view/javascript/lazy/jquery.lazy.min.js"></script>
     <script type="text/javascript" src="catalog/view/javascript/lazy/jquery.lazy.plugins.min.js"></script>
+
+<script type="text/javascript" src="catalog/view/javascript/ssan/staff.js"></script>
 
 
 <!-- UKFast's 100% Carbon Neutral Logo Accreditation -->
