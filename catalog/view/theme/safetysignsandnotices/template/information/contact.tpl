@@ -64,11 +64,11 @@
             <strong><?php echo $store; ?></strong><br />
             Tel: <?php echo $telephone; ?>
               <address>
-              Unit B - D<br />
-              Digby Street<br />
-              Ilkeston<br />
+              Heanor Gate Road<br />
+              Heanor Gate Ind. Est.<br />
+              Heanor<br />
               Derbyshire<br />
-              DE7 5TG
+              DE75 7RJ
               </address>
       		</div>
 

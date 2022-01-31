@@ -89,7 +89,7 @@
 
 
 <script src="catalog/view/javascript/featherlight/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="catalog/view/javascript/ssan/xmas2021.js"></script>
+
 
 <script src="catalog/view/javascript/jquery/rangeslider/rangeslider.js"></script>
    <script src="catalog/view/javascript/ssan/float-label.js"></script>
