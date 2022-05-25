@@ -109,7 +109,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <!-- Google Tag Manager (noscript) -->
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WP3JCKF"
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-  <!-- End Google Tag Manager (noscript) -->
+  <!-- End Google Tag Manager (noscript) -->t
 
   <header>
     <div class="container">
@@ -124,6 +124,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <div class="col-md-12">
                     <div id="top-links" class="nav pull-right">
                     <ul class="list-inline">
+                        <li><a href="mailto:sales@safetysignsandnotices.co.uk"><i class="fa fa-envelope"></i> <span>sales@safetysignsandnotices.co.uk</span></a></li>
                         <li><a href="tel:01157270172"><i class="fa fa-phone"></i> <span>01157270172</span></a></li>
                     </ul>
                   </div>
@@ -174,6 +175,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               <nav id="top" class="">
                 <div id="top-links" class="nav pull-right">
                   <ul class="list-inline">
+                      <li><a href="mailto:sales@safetysignsandnotices.co.uk"><i class="fa fa-envelope"></i> <span>sales@safetysignsandnotices.co.uk</span></a></li>
                     <li><a href="tel:01157270172"><i class="fa fa-phone"></i> <span>01157270172</span></a></li>
                     <?php if ($logged) { ?>
   <li class="dropdown"><a href="<?php echo $account; ?>" title="<?php echo $text_account; ?>" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <span><?php echo $text_welcome; ?></span> <span class="caret"></span></a>
